@@ -1918,6 +1918,29 @@
     .r-dash-side{display:none !important;}
     .r-dash-panels{flex-direction:column !important;}
   }
+
+  /* ===== problem/solution section (redesigned) ===== */
+  .p-legend{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:0 0 40px;}
+  .p-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-family:Poppins,sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .p-chip.bad{background:rgba(240,130,130,.1);border:1px solid rgba(240,130,130,.3);color:#F1A6A6;}
+  .p-chip.good{background:rgba(101,212,210,.12);border:1px solid rgba(101,212,210,.4);color:#65D4D2;}
+  .p-legarrow{color:rgba(232,255,254,.35);font-size:20px;line-height:1;}
+  .p-grid{display:grid;grid-template-columns:1fr 60px 1fr;gap:16px 0;align-items:stretch;}
+  .p-card{display:flex;gap:14px;align-items:flex-start;padding:20px 22px;border-radius:16px;font-size:15px;line-height:1.65;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease;}
+  .p-card.bad{background:rgba(232,255,254,.025);border:1px solid rgba(232,255,254,.07);color:rgba(232,255,254,.6);}
+  .p-card.good{background:linear-gradient(135deg,rgba(101,212,210,.1),rgba(101,212,210,.03));border:1px solid rgba(101,212,210,.28);color:#E8FFFE;}
+  .p-card.good:hover{transform:translateY(-4px);border-color:rgba(101,212,210,.6);box-shadow:0 14px 40px rgba(101,212,210,.16);}
+  .p-badge{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;line-height:1;margin-top:1px;}
+  .p-badge.bad{background:rgba(240,130,130,.14);color:#F1A6A6;border:1px solid rgba(240,130,130,.35);}
+  .p-badge.good{background:linear-gradient(135deg,#65D4D2,#0F6F7A);color:#041316;}
+  .p-arrow{display:flex;align-items:center;justify-content:center;}
+  .p-arrow span{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(101,212,210,.08);border:1px solid rgba(101,212,210,.22);color:#65D4D2;font-size:18px;line-height:1;}
+  @media (max-width:760px){
+    .p-grid{grid-template-columns:1fr;gap:8px;}
+    .p-arrow{padding:2px 0;}
+    .p-arrow span{transform:rotate(-90deg);width:32px;height:32px;font-size:16px;}
+    .p-pair-gap{height:14px;}
+  }
 </style>
 </helmet>
 <div dir="{{ t.dir }}" style="font-family:{{ t.bodyFont }}; background:#041316; color:#E8FFFE; min-height:100vh; width:100%; overflow-x:hidden;">
@@ -2032,13 +2055,17 @@
     <section style="padding:90px 40px;">
       <div style="max-width:1100px; margin:0 auto;">
         <h2 style="font-family:{{ t.headingFont }}; font-size:38px; font-weight:800; text-align:center; margin:0 0 10px; color:#E8FFFE;">{{ t.problem.title }}</h2>
-        <p style="text-align:center; color:rgba(232,255,254,.6); font-size:16px; margin:0 0 48px;">{{ t.problem.sub }}</p>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 28px;">
-          <div style="font-family:Poppins,sans-serif; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(232,255,254,.45);">{{ t.problem.beforeLabel }}</div>
-          <div style="font-family:Poppins,sans-serif; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#65D4D2;">{{ t.problem.afterLabel }}</div>
+        <p style="text-align:center; color:rgba(232,255,254,.6); font-size:16px; margin:0 auto 36px; max-width:560px;">{{ t.problem.sub }}</p>
+        <div class="p-legend">
+          <span class="p-chip bad"><span>✕</span>{{ t.problem.beforeLabel }}</span>
+          <span class="p-legarrow">←</span>
+          <span class="p-chip good"><span>✓</span>{{ t.problem.afterLabel }}</span>
+        </div>
+        <div class="p-grid">
           <sc-for list="{{ t.problem.rows }}" as="row" hint-placeholder-count="7">
-            <div style="padding:16px 18px; background:rgba(232,255,254,.03); border:1px solid rgba(232,255,254,.08); border-radius:12px; font-size:15px; line-height:1.6; color:rgba(232,255,254,.65);">{{ row.p }}</div>
-            <div style="padding:16px 18px; background:rgba(101,212,210,.07); border:1px solid rgba(101,212,210,.3); border-radius:12px; font-size:15px; line-height:1.6; color:#E8FFFE; transition:all .25s;" style-hover="background:rgba(101,212,210,.14); transform:translateX(0) translateY(-2px); box-shadow:0 8px 26px rgba(101,212,210,.12);">{{ row.s }}</div>
+            <div class="p-card bad"><span class="p-badge bad">✕</span><span>{{ row.p }}</span></div>
+            <div class="p-arrow"><span>←</span></div>
+            <div class="p-card good"><span class="p-badge good">✓</span><span>{{ row.s }}</span></div>
           </sc-for>
         </div>
       </div>

@@ -424,6 +424,7 @@
               </sc-if>
               <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:20px; color:{{ pk.titleColor }};">{{ pk.name }}</div>
               <div style="font-family:Poppins,sans-serif; font-size:28px; font-weight:800; color:#65D4D2; margin-bottom:6px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span> <span style="font-size:13px; font-weight:600; color:rgba(232,255,254,.5);">{{ pk.pricePeriod }}</span></div>
+              <div style="font-size:13px; font-weight:600; color:rgba(232,255,254,.45); margin:-2px 0 4px;">{{ pk.priceUsd }}</div>
               <div style="display:flex; flex-direction:column; gap:10px;">
                 <sc-for list="{{ pk.bullets }}" as="b" hint-placeholder-count="4">
                   <div style="display:flex; gap:9px; align-items:flex-start;">
@@ -432,9 +433,11 @@
                   </div>
                 </sc-for>
               </div>
+              <button onClick="{{ pk.choose }}" style="margin-top:auto; padding:12px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.5); background:{{ pk.ctaBg }}; color:{{ pk.ctaColor }}; font-weight:800; font-size:14px; cursor:pointer; font-family:{{ t.headingFont }};" style-hover="background:#65D4D2; color:#041316;">{{ t.packages.cta }}</button>
             </div>
           </sc-for>
         </div>
+        <p style="max-width:820px; margin:36px auto 0; text-align:center; font-size:13.5px; line-height:1.9; color:rgba(232,255,254,.5);">{{ t.packages.note }}</p>
       </div>
     </section>
 
@@ -504,6 +507,8 @@
                 <div style="position:absolute; top:-12px; inset-inline-start:22px; padding:4px 14px; border-radius:12px; background:#65D4D2; color:#041316; font-size:11.5px; font-weight:800;">{{ t.packages.popular }}</div>
               </sc-if>
               <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:20px; color:{{ pk.titleColor }};">{{ pk.name }}</div>
+              <div style="font-family:Poppins,sans-serif; font-size:28px; font-weight:800; color:#65D4D2; margin-bottom:2px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span> <span style="font-size:13px; font-weight:600; color:rgba(232,255,254,.5);">{{ pk.pricePeriod }}</span></div>
+              <div style="font-size:13px; font-weight:600; color:rgba(232,255,254,.45); margin:-6px 0 2px;">{{ pk.priceUsd }}</div>
               <div style="display:flex; flex-direction:column; gap:10px;">
                 <sc-for list="{{ pk.bullets }}" as="b" hint-placeholder-count="4">
                   <div style="display:flex; gap:9px; align-items:flex-start;">
@@ -512,6 +517,7 @@
                   </div>
                 </sc-for>
               </div>
+              <button onClick="{{ pk.choose }}" style="margin-top:auto; padding:12px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.5); background:{{ pk.ctaBg }}; color:{{ pk.ctaColor }}; font-weight:800; font-size:14px; cursor:pointer; font-family:{{ t.headingFont }};" style-hover="background:#65D4D2; color:#041316;">{{ t.packages.cta }}</button>
             </div>
           </sc-for>
         </div>
@@ -575,6 +581,73 @@
     </section>
   </sc-if>
 
+  <sc-if value="{{ isSubscribe }}" hint-placeholder-val="{{ false }}">
+    <section style="padding:90px 40px 20px; max-width:900px; margin:0 auto; text-align:center; display:flex; flex-direction:column; gap:16px; animation:fadeUp .6s ease both;">
+      <h1 style="font-family:{{ t.headingFont }}; font-size:44px; font-weight:900; margin:0; background:linear-gradient(135deg,#E8FFFE 30%,#65D4D2); -webkit-background-clip:text; background-clip:text; color:transparent;">{{ t.subscribe.title }}</h1>
+      <p style="font-size:16.5px; line-height:1.8; color:rgba(232,255,254,.7); margin:0;">{{ t.subscribe.sub }}</p>
+    </section>
+
+    <sc-if value="{{ subSubmitted }}" hint-placeholder-val="{{ false }}">
+      <section style="padding:40px 40px 100px; max-width:700px; margin:0 auto;">
+        <div style="padding:40px 32px; background:rgba(101,212,210,.07); border:1px solid rgba(101,212,210,.35); border-radius:18px; display:flex; flex-direction:column; gap:12px; text-align:center;">
+          <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:22px; color:#65D4D2;">{{ t.subscribe.successTitle }}</div>
+          <div style="font-size:15px; color:rgba(232,255,254,.72); line-height:1.8;">{{ t.subscribe.successBody }}</div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ subNotSubmitted }}" hint-placeholder-val="{{ true }}">
+      <section style="padding:40px 40px 20px; max-width:1100px; margin:0 auto; animation:fadeUp .6s .1s ease both;">
+        <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:18px; color:#E8FFFE; margin-bottom:18px;">{{ t.subscribe.planLabel }}</div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px;" class="r-grid4">
+          <sc-for list="{{ t.subscribe.plans }}" as="sp" hint-placeholder-count="4">
+            <div onClick="{{ sp.pick }}" style="padding:22px 18px; border-radius:16px; background:{{ sp.bg }}; border:{{ sp.border }}; cursor:pointer; display:flex; flex-direction:column; gap:7px; transition:all .25s;" style-hover="border-color:rgba(101,212,210,.6);">
+              <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:17px; color:#E8FFFE;">{{ sp.name }}</div>
+              <div style="font-family:Poppins,sans-serif; font-size:17px; font-weight:800; color:#65D4D2;">{{ sp.priceLine }}</div>
+              <div style="font-size:12.5px; font-weight:600; color:rgba(232,255,254,.45);">{{ sp.usdLine }}</div>
+              <sc-if value="{{ sp.on }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:4px; font-size:12px; font-weight:800; color:#65D4D2;">✓ {{ t.subscribe.selected }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="padding:34px 40px 20px; max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1.05fr .95fr; gap:34px;" class="r-grid2 animation:fadeUp .6s .2s ease both;">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:18px; color:#E8FFFE;">{{ t.subscribe.detailsLabel }}</div>
+          <form onSubmit="{{ submitSubscribe }}" style="display:flex; flex-direction:column; gap:13px; padding:28px; background:rgba(101,212,210,.04); border:1px solid rgba(101,212,210,.2); border-radius:18px;">
+            <input value="{{ form.biz }}" onChange="{{ setBiz }}" placeholder="{{ t.subscribe.bizPlaceholder }}" style="padding:13px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.25); font-size:15px; background:rgba(4,19,22,.6); color:#E8FFFE;">
+            <input value="{{ form.name }}" onChange="{{ setName }}" placeholder="{{ t.subscribe.namePlaceholder }}" style="padding:13px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.25); font-size:15px; background:rgba(4,19,22,.6); color:#E8FFFE;">
+            <input value="{{ form.email }}" onChange="{{ setEmail }}" placeholder="{{ t.subscribe.emailPlaceholder }}" style="padding:13px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.25); font-size:15px; background:rgba(4,19,22,.6); color:#E8FFFE;">
+            <input value="{{ form.phone }}" onChange="{{ setPhone }}" placeholder="{{ t.subscribe.phonePlaceholder }}" style="padding:13px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.25); font-size:15px; background:rgba(4,19,22,.6); color:#E8FFFE;">
+            <div style="font-size:12.5px; line-height:1.8; color:rgba(232,255,254,.5);">{{ t.subscribe.terms }}</div>
+            <button type="submit" style="padding:15px; border-radius:10px; border:none; background:#65D4D2; color:#041316; font-weight:800; font-size:15px; cursor:pointer; font-family:{{ t.headingFont }}; box-shadow:0 0 24px rgba(101,212,210,.3);">{{ t.subscribe.submit }}</button>
+          </form>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:18px; color:#E8FFFE;">{{ t.subscribe.stepsTitle }}</div>
+          <div style="display:flex; flex-direction:column; gap:12px; padding:28px 26px; background:rgba(101,212,210,.04); border:1px solid rgba(101,212,210,.18); border-radius:18px;">
+            <sc-for list="{{ t.subscribe.steps }}" as="st" hint-placeholder-count="4">
+              <div style="display:flex; gap:11px; align-items:flex-start;">
+                <div style="width:7px; height:7px; background:#65D4D2; transform:rotate(45deg); flex-shrink:0; margin-top:8px;"></div>
+                <div style="font-size:14.5px; line-height:1.8; color:rgba(232,255,254,.72);">{{ st }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
+            <span style="font-size:12px; color:rgba(232,255,254,.42);">{{ t.footer.paymentsLabel }}</span>
+            <span style="padding:5px 11px; border-radius:6px; border:1px solid rgba(232,255,254,.18); font-family:Poppins,sans-serif; font-size:11.5px; font-weight:700; color:rgba(232,255,254,.62);">VISA</span>
+            <span style="padding:5px 11px; border-radius:6px; border:1px solid rgba(232,255,254,.18); font-family:Poppins,sans-serif; font-size:11.5px; font-weight:700; color:rgba(232,255,254,.62);">Mastercard</span>
+            <span style="padding:5px 11px; border-radius:6px; border:1px solid rgba(232,255,254,.18); font-family:Poppins,sans-serif; font-size:11.5px; font-weight:700; color:rgba(232,255,254,.62);">AMEX</span>
+          </div>
+          <div style="font-size:12.5px; line-height:1.8; color:rgba(232,255,254,.4);">{{ t.footer.entityPrefix }} <span dir="ltr" style="unicode-bidi:isolate; white-space:nowrap;">{{ t.footer.regNo }}</span><br><span dir="ltr" style="unicode-bidi:isolate;">{{ t.footer.address }}</span></div>
+        </div>
+      </section>
+      <div style="height:80px;"></div>
+    </sc-if>
+  </sc-if>
+
   <sc-if value="{{ isLegal }}" hint-placeholder-val="{{ false }}">
     <section style="padding:90px 40px 30px; max-width:860px; margin:0 auto; display:flex; flex-direction:column; gap:14px; animation:fadeUp .6s ease both;">
       <h1 style="font-family:{{ t.headingFont }}; font-size:40px; font-weight:900; margin:0; background:linear-gradient(135deg,#E8FFFE 30%,#65D4D2); -webkit-background-clip:text; background-clip:text; color:transparent;">{{ t.legal.title }}</h1>
@@ -600,6 +673,7 @@
         <span style="font-family:Poppins,sans-serif; font-weight:700; font-size:15px; color:#E8FFFE;">velorci</span>
       </div>
       <div style="display:flex; align-items:center; flex-wrap:wrap; gap:20px;">
+        <a onClick="{{ goTo.subscribe }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.subscribe }}</a>
         <a onClick="{{ goTo.terms }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.terms }}</a>
         <a onClick="{{ goTo.privacy }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.privacy }}</a>
         <a onClick="{{ goTo.refund }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.refund }}</a>
@@ -639,6 +713,12 @@ const COMPANY = {
   whatsapp: "+965 96984525",
   lastUpdated: {ar:"آخر تحديث: 10 أغسطس 2026", en:"Last updated: 10 August 2026"},
 };
+
+// Annual subscription prices, listed in KWD. USD equivalents are shown
+// alongside because Velorci LLC is a US entity and settles in USD; the rate
+// is indicative only and the exact amount is confirmed on the invoice.
+const PRICES_KWD = { starter:200, growth:300, pro:550, ent:700 };
+const USD_PER_KWD = 3.26;
 
 // Bidi-safe variants of the Latin fields, for use inside prose and bindings.
 const LT = {
@@ -682,6 +762,8 @@ const LEGAL = {
          en:"Subscriptions are annual and are paid in full and in advance for the entire year at the start of the term and on each renewal."},
         {ar:"الأسعار المعروضة على صفحة الباقات هي أسعار الاشتراك السنوي لكل باقة، وهي معروضة بالدينار الكويتي (KWD). قد تُحتسب أي ضرائب أو رسوم حكومية مستحقة إضافةً إلى السعر المعروض وفقاً لأنظمة بلد العميل.",
          en:"The prices shown on the plans page are the annual subscription prices for each plan, displayed in Kuwaiti Dinar (KWD). Any applicable taxes or government fees may be charged in addition to the displayed price according to the rules of the Customer's country."},
+        {ar:`ولأن ${LT.legalName} شركة مسجّلة في الولايات المتحدة، يتم تحصيل المبالغ وتسويتها بالدولار الأمريكي (USD). وأي مبلغ بالدولار يُعرض على الموقع هو مبلغ تقريبي بسعر صرف إرشادي؛ ويُثبَّت المبلغ النهائي المستحق على الفاتورة الصادرة للعميل قبل إتمام الدفع. وقد يطبّق البنك المُصدِر للبطاقة رسوم تحويل عملة أو معاملة دولية، وهي رسوم تخص البنك ولا نتحصّل عليها.`,
+         en:`As ${LT.legalName} is a US-registered company, amounts are charged and settled in US Dollars (USD). Any USD amount shown on the website is approximate and based on an indicative exchange rate; the final amount due is fixed on the invoice issued to the Customer before payment is completed. The Customer's card issuer may apply currency-conversion or international transaction fees, which are charged by that bank and not received by us.`},
         {ar:"تتم معالجة المدفوعات عبر مزوّد خدمات دفع خارجي معتمد. نحن لا نقوم بتخزين أرقام البطاقات أو بياناتها الكاملة على خوادمنا.",
          en:"Payments are processed by an accredited third-party payment provider. We do not store full card numbers or card data on our servers."},
         {ar:"يحق لنا تعديل الأسعار مستقبلاً، على أن يُطبَّق أي تعديل اعتباراً من دورة التجديد التالية فقط، وبعد إشعار العميل بمدة لا تقل عن ثلاثين يوماً قبل تاريخ التجديد.",
@@ -970,7 +1052,7 @@ const DATA = {
 };
 
 class Component extends DCLogic {
-  state = { page:"home", lang:"ar", form:{name:"",phone:"",company:"",message:""}, submitted:false, statProgress:0, menuOpen:false, revealProg:0 };
+  state = { page:"home", lang:"ar", form:{name:"",phone:"",company:"",message:"",plan:"pro",biz:"",email:""}, submitted:false, subSubmitted:false, statProgress:0, menuOpen:false, revealProg:0 };
 
   componentDidMount(){
     let step = 0;
@@ -1011,6 +1093,7 @@ class Component extends DCLogic {
       {key:"about", ar:"من نحن", en:"About"},
       {key:"services", ar:"الخدمات", en:"Services"},
       {key:"team", ar:"فريق العمل", en:"Team"},
+      {key:"subscribe", ar:"الاشتراك", en:"Subscribe"},
       {key:"contact", ar:"تواصل معنا", en:"Contact"},
     ];
     const legalKey = ["terms","privacy","refund"].includes(this.state.page) ? this.state.page : null;
@@ -1130,21 +1213,27 @@ class Component extends DCLogic {
       packages: {
         title: L==="ar" ? "باقات مرنة تناسب حجم عملك" : "Flexible plans for every business size",
         popular: L==="ar" ? "الأكثر طلباً" : "Most popular",
+        cta: L==="ar" ? "اشترك الآن" : "Subscribe now",
         note: L==="ar"
-          ? "جميع الأسعار بالدينار الكويتي (KWD) وتُدفع مقدماً عن سنة كاملة، ولا تشمل أي ضرائب أو رسوم حكومية قد تُطبَّق حسب بلد العميل. يتجدد الاشتراك تلقائياً سنوياً ويمكن إلغاؤه في أي وقت قبل التجديد بسبعة أيام. يُفعَّل الحساب خلال يوم عمل واحد من تأكيد الدفع."
-          : "All prices are in Kuwaiti Dinar (KWD), paid in advance for a full year, and exclude any taxes or government fees that may apply in the customer's country. Subscriptions renew automatically each year and can be cancelled any time up to seven days before renewal. Accounts are activated within one business day of payment confirmation.",
+          ? `الأسعار معروضة بالدينار الكويتي (KWD) وتُدفع مقدماً عن سنة كاملة. ولأن ${LT.legalName} شركة مسجّلة في الولايات المتحدة، يتم التحصيل والتسوية بالدولار الأمريكي (USD)؛ والمبالغ بالدولار المبيّنة أعلاه تقريبية بسعر صرف إرشادي، ويُثبَّت المبلغ النهائي على الفاتورة قبل الدفع. الأسعار لا تشمل أي ضرائب أو رسوم حكومية قد تُطبَّق حسب بلد العميل. يتجدد الاشتراك تلقائياً سنوياً ويمكن إلغاؤه في أي وقت قبل التجديد بسبعة أيام، ويُفعَّل الحساب خلال يوم عمل واحد من تأكيد الدفع.`
+          : `Prices are listed in Kuwaiti Dinar (KWD) and paid in advance for a full year. As ${LT.legalName} is a US-registered company, charges are processed and settled in US Dollars (USD); the USD amounts shown above are approximate, based on an indicative exchange rate, and the final amount is fixed on the invoice before payment. Prices exclude any taxes or government fees that may apply in the customer's country. Subscriptions renew automatically each year and can be cancelled any time up to seven days before renewal. Accounts are activated within one business day of payment confirmation.`,
         items: DATA.packages.map(p => {
-          const prices = {starter:"200",growth:"300",pro:"550",ent:"700"};
+          const usd = Math.round(PRICES_KWD[p.key] * USD_PER_KWD);
           return {
             name: this.pick(p.name),
-            priceNum: prices[p.key],
+            priceNum: String(PRICES_KWD[p.key]),
             priceCur: L==="ar"?"د.ك (KWD)":"KWD",
             pricePeriod: L==="ar"?"/ سنوياً":"/ per year",
+            priceUsd: LTR(`≈ $${usd.toLocaleString("en")} USD`),
+            planKey: p.key,
             bullets: this.pick(p.bullets),
             highlight: !!p.highlight,
             bg: p.highlight ? "rgba(101,212,210,.09)" : "rgba(232,255,254,.03)",
             border: p.highlight ? "1.5px solid rgba(101,212,210,.65)" : "1px solid rgba(101,212,210,.18)",
             titleColor: p.highlight ? "#65D4D2" : "#E8FFFE",
+            ctaBg: p.highlight ? "#65D4D2" : "transparent",
+            ctaColor: p.highlight ? "#041316" : "#65D4D2",
+            choose: () => { this.setState({ form:{...this.state.form, plan:p.key}, page:"subscribe", menuOpen:false }); window.scrollTo(0,0); },
           };
         }),
       },
@@ -1201,11 +1290,58 @@ class Component extends DCLogic {
           : `${LT.legalName} — a limited liability company registered in the ${COMPANY.jurisdiction.en}, no.`,
         regNo: LT.filingId,
         address: LT.address,
+        subscribe: L==="ar" ? "الاشتراك" : "Subscribe",
         terms: L==="ar" ? "شروط الاستخدام" : "Terms of Service",
         privacy: L==="ar" ? "سياسة الخصوصية" : "Privacy Policy",
         refund: L==="ar" ? "سياسة الاسترجاع والإلغاء" : "Refund & Cancellation",
         contact: L==="ar" ? "تواصل معنا" : "Contact",
         paymentsLabel: L==="ar" ? "طرق الدفع المقبولة:" : "Accepted payment methods:",
+      },
+      subscribe: {
+        title: L==="ar" ? "إتمام الاشتراك" : "Complete your subscription",
+        sub: L==="ar"
+          ? "اختر الباقة المناسبة وأدخل بيانات منشأتك، ونرسل لك فاتورة ورابط دفع آمن لإتمام العملية."
+          : "Choose your plan and enter your business details. We'll send you an invoice and a secure payment link to complete the process.",
+        planLabel: L==="ar" ? "1. اختر الباقة" : "1. Choose your plan",
+        detailsLabel: L==="ar" ? "2. بيانات المنشأة" : "2. Business details",
+        selected: L==="ar" ? "مختارة" : "Selected",
+        perYear: L==="ar" ? "سنوياً" : "per year",
+        submit: L==="ar" ? "أرسل طلب الاشتراك" : "Submit subscription request",
+        stepsTitle: L==="ar" ? "ماذا يحدث بعد الإرسال؟" : "What happens next?",
+        steps: L==="ar" ? [
+          "نراجع طلبك ونتواصل معك لتأكيد الباقة وأي متطلبات خاصة بعملك.",
+          "نرسل لك فاتورة رسمية باسم " + COMPANY.legalName + " تتضمن المبلغ النهائي المستحق.",
+          "تدفع عبر رابط دفع آمن يقبل بطاقات Visa وMastercard وAmerican Express.",
+          "يُفعَّل حسابك ونسلّمك بيانات الدخول خلال يوم عمل واحد من تأكيد الدفع.",
+        ] : [
+          "We review your request and contact you to confirm the plan and any specific requirements.",
+          "We send a formal invoice issued by " + COMPANY.legalName + " showing the final amount due.",
+          "You pay through a secure payment link accepting Visa, Mastercard and American Express.",
+          "Your account is activated and credentials delivered within one business day of payment confirmation.",
+        ],
+        terms: L==="ar"
+          ? "بإرسال هذا الطلب فإنك تقرّ بموافقتك على شروط الاستخدام وسياسة الخصوصية وسياسة الاسترجاع والإلغاء. الاشتراك سنوي ويُدفع مقدماً، ويحق لك استرداد كامل المبلغ خلال 14 يوماً من بدء الاشتراك."
+          : "By submitting this request you confirm your acceptance of the Terms of Service, Privacy Policy and Refund & Cancellation Policy. Subscriptions are annual and paid in advance, with a full refund available within 14 days of the subscription start.",
+        successTitle: L==="ar" ? "استلمنا طلب اشتراكك" : "We've received your request",
+        successBody: L==="ar"
+          ? "شكراً لك. سيتواصل معك فريقنا خلال يوم عمل واحد لتأكيد التفاصيل وإرسال الفاتورة ورابط الدفع الآمن."
+          : "Thank you. Our team will contact you within one business day to confirm the details and send your invoice and secure payment link.",
+        bizPlaceholder: L==="ar" ? "اسم المنشأة" : "Business name",
+        namePlaceholder: L==="ar" ? "اسم مسؤول التواصل" : "Contact person",
+        emailPlaceholder: L==="ar" ? "البريد الإلكتروني" : "Email address",
+        phonePlaceholder: L==="ar" ? "الهاتف / واتساب" : "Phone / WhatsApp",
+        plans: DATA.packages.map(p => {
+          const on = this.state.form.plan === p.key;
+          return {
+            name: this.pick(p.name),
+            priceLine: LTR(`${PRICES_KWD[p.key]} KWD`) + (L==="ar" ? " سنوياً" : " per year"),
+            usdLine: LTR(`≈ $${Math.round(PRICES_KWD[p.key]*USD_PER_KWD).toLocaleString("en")} USD`),
+            on,
+            bg: on ? "rgba(101,212,210,.12)" : "rgba(232,255,254,.03)",
+            border: on ? "1.5px solid #65D4D2" : "1px solid rgba(101,212,210,.18)",
+            pick: () => this.setState({ form:{...this.state.form, plan:p.key} }),
+          };
+        }),
       },
       legal: legalKey ? {
         title: this.pick(LEGAL[legalKey].title),
@@ -1233,6 +1369,7 @@ class Component extends DCLogic {
         terms: () => { this.setState({page:"terms", menuOpen:false}); window.scrollTo(0,0); },
         privacy: () => { this.setState({page:"privacy", menuOpen:false}); window.scrollTo(0,0); },
         refund: () => { this.setState({page:"refund", menuOpen:false}); window.scrollTo(0,0); },
+        subscribe: () => { this.setState({page:"subscribe", menuOpen:false}); window.scrollTo(0,0); },
       },
       toggleLang: () => this.setState({lang: this.state.lang==="ar" ? "en" : "ar"}),
       isHome: this.state.page==="home",
@@ -1241,6 +1378,7 @@ class Component extends DCLogic {
       isTeam: this.state.page==="team",
       isContact: this.state.page==="contact",
       isLegal: !!legalKey,
+      isSubscribe: this.state.page==="subscribe",
       dashStats: dashStatDefs.map(s => ({label:s.label, value: s.fmt(Math.round(s.target*ease))})),
       netRevenue: (34892.115*revealEase).toLocaleString("en",{minimumFractionDigits:3, maximumFractionDigits:3}),
       avgOrder: (63.440*revealEase).toLocaleString("en",{minimumFractionDigits:3, maximumFractionDigits:3}),
@@ -1275,6 +1413,11 @@ class Component extends DCLogic {
       setCompany: e => this.setState({form:{...this.state.form, company:e.target.value}}),
       setMessage: e => this.setState({form:{...this.state.form, message:e.target.value}}),
       submitForm: e => { e.preventDefault(); this.setState({submitted:true}); },
+      setBiz: e => this.setState({form:{...this.state.form, biz:e.target.value}}),
+      setEmail: e => this.setState({form:{...this.state.form, email:e.target.value}}),
+      subSubmitted: this.state.subSubmitted,
+      subNotSubmitted: !this.state.subSubmitted,
+      submitSubscribe: e => { e.preventDefault(); this.setState({subSubmitted:true}); window.scrollTo(0,0); },
     };
   }
 }

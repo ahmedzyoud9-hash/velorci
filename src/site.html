@@ -58,6 +58,7 @@
   @keyframes ring{0%{transform:scale(.8);opacity:.6;}100%{transform:scale(1.9);opacity:0;}}
   .temj{filter:grayscale(1) brightness(0) saturate(100%) invert(78%) sepia(35%) saturate(560%) hue-rotate(128deg) brightness(95%) contrast(90%);}
   @media (max-width:900px){
+    .r-grid5{grid-template-columns:1fr 1fr 1fr !important;}
     .r-grid4{grid-template-columns:1fr 1fr !important;}
     .r-grid3{grid-template-columns:1fr 1fr !important;}
   }
@@ -76,7 +77,7 @@
     .r-hdr.menu-open .r-actions{display:flex !important; order:4 !important; width:100% !important; flex-direction:column !important; gap:8px !important;}
     .r-hdr.menu-open .r-actions > *{width:100% !important; text-align:center !important; justify-content:center !important; box-sizing:border-box !important;}
     .r-hero-h1{font-size:38px !important;}
-    .r-grid4, .r-grid3, .r-grid2{grid-template-columns:1fr !important;}
+    .r-grid5, .r-grid4, .r-grid3, .r-grid2{grid-template-columns:1fr !important;}
     .r-contact{padding:64px 20px 70px !important;}
     section{padding-left:20px !important; padding-right:20px !important;}
     .r-dash-side{display:none !important;}
@@ -428,15 +429,23 @@
     </section><section style="padding:90px 40px 70px;">
       <div style="max-width:1200px; margin:0 auto;">
         <h2 style="font-family:{{ t.headingFont }}; font-size:38px; font-weight:800; text-align:center; margin:0 0 48px; color:#E8FFFE;">{{ t.packages.title }}</h2>
-        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px; align-items:stretch;" class="r-grid4">
+                <div style="max-width:900px; margin:0 auto 40px; padding:24px 28px; border-radius:18px; background:linear-gradient(135deg, rgba(101,212,210,.13), rgba(101,212,210,.04)); border:1px solid rgba(101,212,210,.4); display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+          <div style="display:flex; flex-direction:column; gap:8px; flex:1 1 380px;">
+            <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:21px; color:#65D4D2;">{{ t.packages.trialTitle }}</div>
+            <div style="font-size:14px; line-height:1.8; color:rgba(232,255,254,.72);">{{ t.packages.trialBody }}</div>
+          </div>
+          <a href="{{ t.packages.trialHref }}" style="padding:14px 30px; border-radius:12px; background:#65D4D2; color:#041316; font-weight:800; font-size:15px; text-decoration:none; white-space:nowrap; font-family:{{ t.headingFont }}; box-shadow:0 0 24px rgba(101,212,210,.3);">{{ t.packages.trialCta }}</a>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:14px; align-items:stretch;" class="r-grid5">
           <sc-for list="{{ t.packages.items }}" as="pk" hint-placeholder-count="4">
             <div style="position:relative; padding:28px 22px; background:{{ pk.bg }}; border-radius:18px; border:{{ pk.border }}; display:flex; flex-direction:column; gap:16px; transition:all .3s;" style-hover="transform:translateY(-6px);">
               <sc-if value="{{ pk.highlight }}" hint-placeholder-val="{{ false }}">
                 <div style="position:absolute; top:-12px; inset-inline-start:22px; padding:4px 14px; border-radius:12px; background:#65D4D2; color:#041316; font-size:11.5px; font-weight:800;">{{ t.packages.popular }}</div>
               </sc-if>
               <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:20px; color:{{ pk.titleColor }};">{{ pk.name }}</div>
-              <div style="font-family:Poppins,sans-serif; font-size:28px; font-weight:800; color:#65D4D2; margin-bottom:6px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span> <span style="font-size:13px; font-weight:600; color:rgba(232,255,254,.5);">{{ pk.pricePeriod }}</span></div>
+              <div style="font-family:Poppins,sans-serif; font-size:{{ pk.priceSize }}; font-weight:800; color:#65D4D2; margin-bottom:6px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span> <span style="font-size:13px; font-weight:600; color:rgba(232,255,254,.5);">{{ pk.pricePeriod }}</span></div>
               <div style="font-size:13px; font-weight:600; color:rgba(232,255,254,.45); margin:-2px 0 4px;">{{ pk.priceUsd }}</div>
+              <div style="display:inline-block; align-self:flex-start; padding:4px 11px; border-radius:20px; background:rgba(101,212,210,.14); border:1px solid rgba(101,212,210,.32); font-size:11.5px; font-weight:800; color:#65D4D2;">{{ pk.trialLine }}</div>
               <div style="display:flex; flex-direction:column; gap:10px;">
                 <sc-for list="{{ pk.bullets }}" as="b" hint-placeholder-count="4">
                   <div style="display:flex; gap:9px; align-items:flex-start;">
@@ -445,7 +454,7 @@
                   </div>
                 </sc-for>
               </div>
-              <a href="{{ pk.subscribeHref }}" style="text-align:center; text-decoration:none; margin-top:auto; padding:12px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.5); background:{{ pk.ctaBg }}; color:{{ pk.ctaColor }}; font-weight:800; font-size:14px; cursor:pointer; font-family:{{ t.headingFont }};" style-hover="background:#65D4D2; color:#041316;">{{ t.packages.cta }}</a>
+              <a href="{{ pk.subscribeHref }}" style="text-align:center; text-decoration:none; margin-top:auto; padding:12px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.5); background:{{ pk.ctaBg }}; color:{{ pk.ctaColor }}; font-weight:800; font-size:14px; cursor:pointer; font-family:{{ t.headingFont }};" style-hover="background:#65D4D2; color:#041316;">{{ pk.ctaLabel }}</a>
             </div>
           </sc-for>
         </div>
@@ -524,15 +533,23 @@
     <section style="padding:70px 40px 100px; background:linear-gradient(180deg, rgba(8,58,63,.35), rgba(4,19,22,0));">
       <div style="max-width:1200px; margin:0 auto;">
         <h2 style="font-family:{{ t.headingFont }}; font-size:34px; font-weight:800; text-align:center; margin:0 0 44px; color:#E8FFFE;">{{ t.packages.title }}</h2>
-        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px;" class="r-grid4">
+                <div style="max-width:900px; margin:0 auto 40px; padding:24px 28px; border-radius:18px; background:linear-gradient(135deg, rgba(101,212,210,.13), rgba(101,212,210,.04)); border:1px solid rgba(101,212,210,.4); display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+          <div style="display:flex; flex-direction:column; gap:8px; flex:1 1 380px;">
+            <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:21px; color:#65D4D2;">{{ t.packages.trialTitle }}</div>
+            <div style="font-size:14px; line-height:1.8; color:rgba(232,255,254,.72);">{{ t.packages.trialBody }}</div>
+          </div>
+          <a href="{{ t.packages.trialHref }}" style="padding:14px 30px; border-radius:12px; background:#65D4D2; color:#041316; font-weight:800; font-size:15px; text-decoration:none; white-space:nowrap; font-family:{{ t.headingFont }}; box-shadow:0 0 24px rgba(101,212,210,.3);">{{ t.packages.trialCta }}</a>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:14px; align-items:stretch;" class="r-grid5">
           <sc-for list="{{ t.packages.items }}" as="pk" hint-placeholder-count="4">
             <div style="position:relative; padding:28px 22px; background:{{ pk.bg }}; border-radius:18px; border:{{ pk.border }}; display:flex; flex-direction:column; gap:16px; transition:all .3s;" style-hover="transform:translateY(-6px);">
               <sc-if value="{{ pk.highlight }}" hint-placeholder-val="{{ false }}">
                 <div style="position:absolute; top:-12px; inset-inline-start:22px; padding:4px 14px; border-radius:12px; background:#65D4D2; color:#041316; font-size:11.5px; font-weight:800;">{{ t.packages.popular }}</div>
               </sc-if>
               <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:20px; color:{{ pk.titleColor }};">{{ pk.name }}</div>
-              <div style="font-family:Poppins,sans-serif; font-size:28px; font-weight:800; color:#65D4D2; margin-bottom:2px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span> <span style="font-size:13px; font-weight:600; color:rgba(232,255,254,.5);">{{ pk.pricePeriod }}</span></div>
+              <div style="font-family:Poppins,sans-serif; font-size:{{ pk.priceSize }}; font-weight:800; color:#65D4D2; margin-bottom:2px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span> <span style="font-size:13px; font-weight:600; color:rgba(232,255,254,.5);">{{ pk.pricePeriod }}</span></div>
               <div style="font-size:13px; font-weight:600; color:rgba(232,255,254,.45); margin:-6px 0 2px;">{{ pk.priceUsd }}</div>
+              <div style="display:inline-block; align-self:flex-start; padding:4px 11px; border-radius:20px; background:rgba(101,212,210,.14); border:1px solid rgba(101,212,210,.32); font-size:11.5px; font-weight:800; color:#65D4D2;">{{ pk.trialLine }}</div>
               <div style="display:flex; flex-direction:column; gap:10px;">
                 <sc-for list="{{ pk.bullets }}" as="b" hint-placeholder-count="4">
                   <div style="display:flex; gap:9px; align-items:flex-start;">
@@ -541,7 +558,7 @@
                   </div>
                 </sc-for>
               </div>
-              <a href="{{ pk.subscribeHref }}" style="text-align:center; text-decoration:none; margin-top:auto; padding:12px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.5); background:{{ pk.ctaBg }}; color:{{ pk.ctaColor }}; font-weight:800; font-size:14px; cursor:pointer; font-family:{{ t.headingFont }};" style-hover="background:#65D4D2; color:#041316;">{{ t.packages.cta }}</a>
+              <a href="{{ pk.subscribeHref }}" style="text-align:center; text-decoration:none; margin-top:auto; padding:12px 16px; border-radius:10px; border:1px solid rgba(101,212,210,.5); background:{{ pk.ctaBg }}; color:{{ pk.ctaColor }}; font-weight:800; font-size:14px; cursor:pointer; font-family:{{ t.headingFont }};" style-hover="background:#65D4D2; color:#041316;">{{ pk.ctaLabel }}</a>
             </div>
           </sc-for>
         </div>
@@ -623,7 +640,18 @@
     </sc-if>
 
     <sc-if value="{{ subNotSubmitted }}" hint-placeholder-val="{{ true }}">
-      <section style="padding:40px 40px 20px; max-width:1100px; margin:0 auto; animation:fadeUp .6s .1s ease both;">
+      <section style="padding:40px 40px 0; max-width:1100px; margin:0 auto; animation:fadeUp .6s .05s ease both;">
+        <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:18px; color:#E8FFFE; margin-bottom:18px;">{{ t.subscribe.modeLabel }}</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;" class="r-grid2">
+          <sc-for list="{{ t.subscribe.modes }}" as="md" hint-placeholder-count="2">
+            <div onClick="{{ md.pick }}" style="padding:18px 20px; border-radius:16px; background:{{ md.bg }}; border:{{ md.border }}; cursor:pointer; display:flex; flex-direction:column; gap:5px; transition:all .25s;" style-hover="border-color:rgba(101,212,210,.6);">
+              <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:16px; color:{{ md.color }};">{{ md.label }}</div>
+              <div style="font-size:12.5px; color:rgba(232,255,254,.5);">{{ md.hint }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+      <section style="padding:34px 40px 20px; max-width:1100px; margin:0 auto; animation:fadeUp .6s .1s ease both;">
         <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:18px; color:#E8FFFE; margin-bottom:18px;">{{ t.subscribe.planLabel }}</div>
         <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px;" class="r-grid4">
           <sc-for list="{{ t.subscribe.plans }}" as="sp" hint-placeholder-count="4">
@@ -794,6 +822,12 @@ function currentLang() {
   return LANGS.includes(v) ? v : "ar";
 }
 
+// The trial banner links to subscribe.html?trial=1.
+function requestedTrial() {
+  try { return new URLSearchParams(location.search).get("trial") === "1"; }
+  catch { return false; }
+}
+
 // A plan chosen from a pricing card arrives as ?plan=pro on subscribe.html.
 function requestedPlan() {
   try {
@@ -801,6 +835,11 @@ function requestedPlan() {
     return v && Object.prototype.hasOwnProperty.call(PRICES_KWD, v) ? v : "pro";
   } catch { return "pro"; }
 }
+
+// A 14-day trial on any priced plan. No card is taken up front and nothing
+// is charged when it ends — the customer chooses whether to subscribe — so
+// there is no automatic conversion for a customer to dispute later.
+const TRIAL_DAYS = 14;
 
 const PRICES_KWD = { starter:200, growth:300, pro:550, ent:700 };
 const USD_PER_KWD = 3.26;
@@ -842,7 +881,19 @@ const LEGAL = {
         {ar:"العميل مسؤول عن مشروعية المحتوى والبيانات التي يرفعها على المنصة وعن التزامه بالأنظمة السارية في الدولة التي يمارس فيها نشاطه، بما في ذلك أنظمة حماية البيانات وحماية المستهلك.",
          en:"The Customer is responsible for the lawfulness of the content and data they upload and for complying with the laws applicable in the country where they operate, including data-protection and consumer-protection rules."},
       ]},
-      { h:{ar:"4. الاشتراك والأسعار والدفع", en:"4. Subscription, pricing and payment"}, paras:[
+      { h:{ar:"4. التجربة المجانية", en:"4. The free trial"}, paras:[
+        {ar:`نتيح تجربة مجانية لمدة ${TRIAL_DAYS} يوماً على أي باقة مدفوعة، تشمل كامل مزايا تلك الباقة. ويُفعَّل الحساب التجريبي خلال يوم عمل واحد من قبول الطلب.`,
+         en:`We offer a ${TRIAL_DAYS}-day free trial on any paid plan, including every feature of that plan. The trial account is activated within one business day of the request being accepted.`},
+        {ar:"لا نطلب بطاقة ائتمان أو أي وسيلة دفع لبدء التجربة، ولا نحتفظ بأي بيانات دفع خلالها.",
+         en:"We do not ask for a credit card or any payment method to start the trial, and we hold no payment details during it."},
+        {ar:"لا تتحول التجربة إلى اشتراك مدفوع تلقائياً. وعند انتهاء المدة يتوقف الحساب التجريبي، ولا يُخصم منك أي مبلغ إلا إذا طلبت الاشتراك صراحةً ووافقت على الفاتورة.",
+         en:"The trial does not convert into a paid subscription automatically. When the period ends the trial account stops, and no amount is charged unless you explicitly request a subscription and approve the invoice."},
+        {ar:"نُشعرك قبل انتهاء التجربة بيومين. وإذا اخترت عدم الاستمرار، يمكنك تصدير بياناتك خلال ثلاثين يوماً من انتهائها.",
+         en:"We notify you two days before the trial ends. If you choose not to continue, you may export your data within thirty days of it ending."},
+        {ar:"التجربة المجانية متاحة مرة واحدة لكل منشأة. ويحق لنا إنهاؤها فوراً في حال إساءة الاستخدام أو مخالفة سياسة الاستخدام المقبول.",
+         en:"The free trial is available once per business. We may end it immediately in the event of abuse or a breach of the acceptable-use policy."},
+      ]},
+      { h:{ar:"5. الاشتراك والأسعار والدفع", en:"5. Subscription, pricing and payment"}, paras:[
         {ar:"الاشتراك في المنصة سنوي، ويُدفع مقدماً بالكامل عن كامل مدة السنة عند بدء الاشتراك أو عند تجديده.",
          en:"Subscriptions are annual and are paid in full and in advance for the entire year at the start of the term and on each renewal."},
         {ar:"الأسعار المعروضة على صفحة الباقات هي أسعار الاشتراك السنوي لكل باقة، وهي معروضة بالدينار الكويتي (KWD). قد تُحتسب أي ضرائب أو رسوم حكومية مستحقة إضافةً إلى السعر المعروض وفقاً لأنظمة بلد العميل.",
@@ -856,7 +907,7 @@ const LEGAL = {
         {ar:"يحق لنا تعديل الأسعار مستقبلاً، على أن يُطبَّق أي تعديل اعتباراً من دورة التجديد التالية فقط، وبعد إشعار العميل بمدة لا تقل عن ثلاثين يوماً قبل تاريخ التجديد.",
          en:"We may change our prices in future. Any change applies only from the following renewal cycle and only after we notify the Customer at least thirty days before the renewal date."},
       ]},
-      { h:{ar:"5. التجديد والإلغاء", en:"5. Renewal and cancellation"}, paras:[
+      { h:{ar:"6. التجديد والإلغاء", en:"6. Renewal and cancellation"}, paras:[
         {ar:"يتجدد الاشتراك تلقائياً لمدة سنة إضافية في نهاية كل مدة، ما لم يقم العميل بإلغائه قبل تاريخ التجديد بسبعة أيام على الأقل.",
          en:"Subscriptions renew automatically for a further year at the end of each term unless the Customer cancels at least seven days before the renewal date."},
         {ar:"يمكن للعميل إلغاء التجديد التلقائي في أي وقت عبر مراسلتنا على البريد الإلكتروني أو الواتساب المذكورين في نهاية هذه الصفحة، ويبقى الاشتراك فعّالاً حتى نهاية المدة المدفوعة.",
@@ -864,7 +915,7 @@ const LEGAL = {
         {ar:"ترتبط حالات استرداد المبالغ بسياسة الاسترجاع والإلغاء المنشورة على هذا الموقع، وهي جزء لا يتجزأ من هذه الشروط.",
          en:"Refund entitlements are governed by the Refund & Cancellation Policy published on this website, which forms an integral part of these terms."},
       ]},
-      { h:{ar:"6. الاستخدام المقبول", en:"6. Acceptable use"}, paras:[
+      { h:{ar:"7. الاستخدام المقبول", en:"7. Acceptable use"}, paras:[
         {ar:"يُمنع استخدام المنصة في أي نشاط مخالف للقانون، أو في إرسال رسائل تجارية جماعية غير مرغوب فيها، أو في بيع سلع أو خدمات محظورة، أو في انتهاك حقوق الغير.",
          en:"The platform may not be used for any unlawful activity, for sending unsolicited bulk commercial messages, for selling prohibited goods or services, or in a way that infringes the rights of others."},
         {ar:"يُمنع محاولة اختراق المنصة أو تعطيلها أو الوصول غير المصرّح به إلى بيانات عملاء آخرين أو إعادة بيع الخدمة دون اتفاق مكتوب معنا.",
@@ -872,7 +923,7 @@ const LEGAL = {
         {ar:"عند استخدام مزايا واتساب الأعمال أو الإعلانات، يلتزم العميل إضافةً إلى ذلك بسياسات مزوّدي تلك الخدمات المعمول بها.",
          en:"When using WhatsApp Business or advertising features, the Customer must additionally comply with the applicable policies of those service providers."},
       ]},
-      { h:{ar:"7. الملكية الفكرية وبيانات العميل", en:"7. Intellectual property and customer data"}, paras:[
+      { h:{ar:"8. الملكية الفكرية وبيانات العميل", en:"8. Intellectual property and customer data"}, paras:[
         {ar:"تظل كافة حقوق الملكية الفكرية في المنصة وشيفرتها البرمجية وتصميمها وعلامتها التجارية مملوكة لفيلورسي. ويمنح الاشتراك العميل ترخيصاً محدوداً غير حصري وغير قابل للتنازل لاستخدام المنصة طوال مدة اشتراكه.",
          en:"All intellectual property rights in the platform, its source code, design and brand remain the property of Velorci. A subscription grants the Customer a limited, non-exclusive, non-transferable licence to use the platform for the duration of the subscription."},
         {ar:"تبقى البيانات التي يرفعها العميل — بما فيها بيانات عملائه ومنتجاته وسجلاته المحاسبية — مملوكة للعميل بالكامل. ونحن نعالجها نيابةً عنه لغرض تشغيل الخدمة فقط.",
@@ -880,13 +931,13 @@ const LEGAL = {
         {ar:"يحق للعميل تصدير بياناته بصيغة قابلة للقراءة في أي وقت خلال مدة اشتراكه، وخلال ثلاثين يوماً من انتهائه.",
          en:"The Customer may export their data in a readable format at any time during the subscription term and for thirty days after it ends."},
       ]},
-      { h:{ar:"8. التوافرية والدعم الفني", en:"8. Availability and support"}, paras:[
+      { h:{ar:"9. التوافرية والدعم الفني", en:"9. Availability and support"}, paras:[
         {ar:"نسعى لإتاحة المنصة على مدار الساعة، مع إمكانية إيقافها مؤقتاً لأعمال الصيانة المجدولة التي نُشعر بها مسبقاً كلما أمكن.",
          en:"We aim to keep the platform available at all times, save for scheduled maintenance windows which we announce in advance wherever practicable."},
         {ar:`يُقدَّم الدعم الفني عبر البريد الإلكتروني والواتساب أيام ${COMPANY.supportDays.ar}، من ${COMPANY.supportHours.ar}، ونلتزم بالرد ${COMPANY.responseTime.ar}. ويختلف مستوى الأولوية بحسب الباقة المشترَك بها.`,
          en:`Technical support is provided by email and WhatsApp, ${COMPANY.supportDays.en}, ${COMPANY.supportHours.en}, and we aim to respond ${COMPANY.responseTime.en}. Priority levels vary by subscription plan.`},
       ]},
-      { h:{ar:"9. حدود المسؤولية", en:"9. Limitation of liability"}, paras:[
+      { h:{ar:"10. حدود المسؤولية", en:"10. Limitation of liability"}, paras:[
         {ar:"تُقدَّم المنصة “كما هي”. وبالقدر الذي يسمح به القانون، لا نتحمل المسؤولية عن الأضرار غير المباشرة أو التبعية أو عن فوات الربح أو فقدان البيانات الناتج عن عوامل خارجة عن سيطرتنا المعقولة.",
          en:"The platform is provided “as is”. To the extent permitted by law, we are not liable for indirect or consequential damages, or for loss of profit or data arising from factors outside our reasonable control."},
         {ar:"وفي جميع الأحوال، لا تتجاوز مسؤوليتنا الإجمالية تجاه العميل قيمة المبالغ التي دفعها فعلياً مقابل الاشتراك خلال الاثني عشر شهراً السابقة لنشوء المطالبة.",
@@ -894,19 +945,19 @@ const LEGAL = {
         {ar:"لا يحدّ أي بند في هذه الشروط من الحقوق التي لا يجوز التنازل عنها قانوناً بموجب أنظمة حماية المستهلك السارية.",
          en:"Nothing in these terms limits rights that cannot be waived under applicable consumer-protection law."},
       ]},
-      { h:{ar:"10. الإنهاء", en:"10. Termination"}, paras:[
+      { h:{ar:"11. الإنهاء", en:"11. Termination"}, paras:[
         {ar:"يحق لنا تعليق أو إنهاء الحساب في حال مخالفة العميل لهذه الشروط مخالفة جوهرية، أو في حال عدم سداد المستحقات، وذلك بعد إشعاره ومنحه مهلة معقولة لتصحيح المخالفة متى كان ذلك ممكناً.",
          en:"We may suspend or terminate an account in the event of a material breach of these terms or non-payment, after notifying the Customer and allowing a reasonable period to remedy the breach where possible."},
         {ar:"عند الإنهاء لأي سبب، يتاح للعميل تصدير بياناته خلال ثلاثين يوماً، ثم تُحذف بياناته من أنظمتنا التشغيلية وفقاً لسياسة الخصوصية.",
          en:"On termination for any reason, the Customer may export their data within thirty days, after which it is deleted from our operational systems in accordance with the Privacy Policy."},
       ]},
-      { h:{ar:"11. القانون الحاكم وتسوية النزاعات", en:"11. Governing law and disputes"}, paras:[
+      { h:{ar:"12. القانون الحاكم وتسوية النزاعات", en:"12. Governing law and disputes"}, paras:[
         {ar:`تخضع هذه الشروط وتُفسَّر وفقاً لقوانين ${COMPANY.jurisdiction.ar}، دون اعتبار لقواعد تنازع القوانين.`,
          en:`These terms are governed by and construed in accordance with the laws of the ${COMPANY.jurisdiction.en}, without regard to its conflict-of-laws rules.`},
         {ar:"نسعى أولاً لتسوية أي نزاع ودياً خلال ثلاثين يوماً من إشعار الطرف الآخر به كتابةً. وفي حال تعذّر ذلك، تختص المحاكم المختصة في ولاية وايومنغ بنظر النزاع.",
          en:"We will first seek to resolve any dispute amicably within thirty days of written notice to the other party. Failing that, the competent courts of the State of Wyoming shall have jurisdiction."},
       ]},
-      { h:{ar:"12. تعديل الشروط والتواصل", en:"12. Changes and contact"}, paras:[
+      { h:{ar:"13. تعديل الشروط والتواصل", en:"13. Changes and contact"}, paras:[
         {ar:"قد نحدّث هذه الشروط من وقت لآخر. وسنُشعر العملاء المشتركين بأي تعديل جوهري عبر البريد الإلكتروني قبل سريانه بثلاثين يوماً على الأقل، ويظل تاريخ آخر تحديث مبيّناً أعلى هذه الصفحة.",
          en:"We may update these terms from time to time. We will notify active subscribers of any material change by email at least thirty days before it takes effect, and the last-updated date is shown at the top of this page."},
         {ar:`لأي استفسار بخصوص هذه الشروط، راسلنا على ${LT.email} أو عبر واتساب ${LT.whatsapp}.`,
@@ -1012,25 +1063,31 @@ const LEGAL = {
         {ar:"فيلورسي خدمة برمجية رقمية بالكامل (SaaS)؛ لا يترتب على الاشتراك شحن أي منتج مادي، وبالتالي لا توجد سياسة إرجاع بضائع أو رسوم شحن.",
          en:"Velorci is an entirely digital software service (SaaS); no physical product is shipped, so there is no goods-return process or shipping charge."},
       ]},
-      { h:{ar:"2. طبيعة الاشتراك", en:"2. Nature of the subscription"}, paras:[
+      { h:{ar:"2. التجربة المجانية", en:"2. The free trial"}, paras:[
+        {ar:`تبدأ كل باقة مدفوعة بتجربة مجانية مدتها ${TRIAL_DAYS} يوماً لا تتطلب أي وسيلة دفع. وبما أنه لا يتم تحصيل أي مبلغ خلالها، فلا ينشأ عنها أي طلب استرداد.`,
+         en:`Every paid plan can start with a ${TRIAL_DAYS}-day free trial that requires no payment method. Since nothing is charged during it, no refund arises from the trial itself.`},
+        {ar:"لا تتحول التجربة إلى اشتراك مدفوع تلقائياً، ولا يُخصم منك أي مبلغ عند انتهائها.",
+         en:"The trial does not convert into a paid subscription automatically, and nothing is charged when it ends."},
+      ]},
+      { h:{ar:"3. طبيعة الاشتراك", en:"3. Nature of the subscription"}, paras:[
         {ar:"الاشتراك سنوي ويُدفع مقدماً عن كامل مدة السنة. ويُفعَّل الحساب إلكترونياً خلال مدة أقصاها يوم عمل واحد من تأكيد الدفع.",
          en:"Subscriptions are annual and paid in advance for the full year. Accounts are activated electronically within a maximum of one business day of payment confirmation."},
         {ar:"نوفّر عرضاً تجريبياً مجانياً قبل الاشتراك، ونشجّع كل عميل على تجربة المنصة والتأكد من ملاءمتها لعمله قبل الدفع.",
          en:"We offer a free demo before subscribing, and we encourage every customer to trial the platform and confirm it suits their business before paying."},
       ]},
-      { h:{ar:"3. فترة الاسترجاع الكامل", en:"3. Full refund window"}, paras:[
+      { h:{ar:"4. فترة الاسترجاع الكامل", en:"4. Full refund window"}, paras:[
         {ar:"يحق للعميل طلب استرداد كامل للمبلغ المدفوع خلال أربعة عشر (14) يوماً من تاريخ أول اشتراك له في المنصة، دون الحاجة لإبداء الأسباب.",
          en:"A Customer may request a full refund of the amount paid within fourteen (14) days of their first subscription to the platform, with no reason required."},
         {ar:"ولضمان سلامة الاسترداد، يُشترط ألا يكون الاستخدام خلال تلك الفترة قد تجاوز حدود التجربة المعقولة للخدمة، كأن يكون الحساب قد استُخدم لمعالجة حجم تشغيلي كامل أو لإرسال حملات رسائل جماعية واسعة.",
          en:"To qualify, usage during that window must not have gone beyond a reasonable evaluation of the service — for example, the account must not have been used to process a full operational workload or to send large-scale bulk messaging campaigns."},
       ]},
-      { h:{ar:"4. بعد انتهاء فترة الاسترجاع", en:"4. After the refund window"}, paras:[
+      { h:{ar:"5. بعد انتهاء فترة الاسترجاع", en:"5. After the refund window"}, paras:[
         {ar:"بعد مرور أربعة عشر يوماً على بدء الاشتراك، لا تُسترد المبالغ المدفوعة عن المدة الجارية، ويبقى الاشتراك فعّالاً حتى نهاية السنة المدفوعة.",
          en:"After fourteen days from the start of the subscription, amounts paid for the current term are non-refundable, and the subscription remains active until the end of the paid year."},
         {ar:"واستثناءً من ذلك، يحق للعميل استرداد نسبي عن المدة المتبقية إذا تعذّر علينا تقديم الخدمة لسبب يعود إلينا، أو في حال انقطاع جوهري ومتواصل للخدمة لم نتمكن من معالجته خلال مدة معقولة.",
          en:"By way of exception, a pro-rata refund for the remaining term is available if we are unable to provide the service for reasons attributable to us, or in the event of a material and sustained outage that we fail to remedy within a reasonable period."},
       ]},
-      { h:{ar:"5. حالات لا تشملها الاسترجاع", en:"5. Non-refundable cases"}, paras:[
+      { h:{ar:"6. حالات لا تشملها الاسترجاع", en:"6. Non-refundable cases"}, paras:[
         {ar:"الرسوم المدفوعة لأطراف ثالثة ومُستهلَكة فعلياً، مثل ميزانيات الحملات الإعلانية أو رسوم رسائل واتساب أو رسوم أسماء النطاقات.",
          en:"Fees paid to third parties and already consumed, such as advertising campaign budgets, WhatsApp messaging fees, or domain-name fees."},
         {ar:"أعمال التخصيص أو التطوير الخاص أو ترحيل البيانات التي تم تنفيذها فعلياً بناءً على طلب العميل.",
@@ -1040,7 +1097,7 @@ const LEGAL = {
         {ar:"التجديدات التي لم يُطلب إلغاؤها قبل تاريخ التجديد بسبعة أيام على الأقل، وفق ما هو موضّح في البند التالي.",
          en:"Renewals for which cancellation was not requested at least seven days before the renewal date, as set out in the next section."},
       ]},
-      { h:{ar:"6. إلغاء الاشتراك والتجديد التلقائي", en:"6. Cancellation and auto-renewal"}, paras:[
+      { h:{ar:"7. إلغاء الاشتراك والتجديد التلقائي", en:"7. Cancellation and auto-renewal"}, paras:[
         {ar:"يتجدد الاشتراك تلقائياً لسنة إضافية ما لم يُلغَ قبل تاريخ التجديد بسبعة أيام على الأقل. ونرسل تذكيراً بالتجديد إلى بريد العميل قبل موعده بمدة كافية.",
          en:"Subscriptions renew automatically for a further year unless cancelled at least seven days before the renewal date. We send a renewal reminder to the Customer's email address in good time beforehand."},
         {ar:"يمكن الإلغاء في أي وقت عبر مراسلتنا على البريد الإلكتروني أو الواتساب. والإلغاء يوقف التجديد المستقبلي فقط، ويستمر العميل في استخدام المنصة حتى نهاية المدة المدفوعة.",
@@ -1048,13 +1105,13 @@ const LEGAL = {
         {ar:"إذا تم تجديد الاشتراك تلقائياً وطلب العميل الإلغاء خلال سبعة أيام من خصم مبلغ التجديد ودون أن يكون قد استخدم المنصة خلال تلك المدة، فإننا نردّ مبلغ التجديد كاملاً.",
          en:"If a subscription renews automatically and the Customer requests cancellation within seven days of the renewal charge without having used the platform in that period, we refund the renewal charge in full."},
       ]},
-      { h:{ar:"7. كيفية تقديم طلب الاسترجاع", en:"7. How to request a refund"}, paras:[
+      { h:{ar:"8. كيفية تقديم طلب الاسترجاع", en:"8. How to request a refund"}, paras:[
         {ar:`أرسل طلبك إلى ${LT.email} أو عبر واتساب ${LT.whatsapp}، متضمناً اسم المنشأة، والبريد المرتبط بالحساب، ورقم الفاتورة، وسبب الطلب إن وُجد.`,
          en:`Send your request to ${LT.email} or via WhatsApp at ${LT.whatsapp}, including your business name, the email linked to the account, the invoice number, and the reason for the request if any.`},
         {ar:"نراجع كل طلب ونردّ عليه خلال ثلاثة أيام عمل كحد أقصى، موضّحين قرارنا وأسبابه.",
          en:"We review every request and respond within a maximum of three business days, explaining our decision and the reasons for it."},
       ]},
-      { h:{ar:"8. مدة وطريقة رد المبلغ", en:"8. Refund timing and method"}, paras:[
+      { h:{ar:"9. مدة وطريقة رد المبلغ", en:"9. Refund timing and method"}, paras:[
         {ar:"يُردّ المبلغ المستحق إلى الوسيلة نفسها التي تم الدفع بها، ولا يمكن ردّه إلى وسيلة أخرى.",
          en:"Approved refunds are returned to the same payment method used for the original charge, and cannot be issued to a different method."},
         {ar:"نبدأ إجراء الاسترداد خلال خمسة أيام عمل من الموافقة على الطلب. وقد يستغرق ظهور المبلغ في حساب العميل من خمسة إلى عشرة أيام عمل إضافية بحسب إجراءات البنك أو مزوّد خدمات الدفع.",
@@ -1064,7 +1121,7 @@ const LEGAL = {
         {ar:`تظهر عملية الخصم — وكذلك الاسترداد — على كشف حساب بطاقتك باسم ${LTR(COMPANY.descriptor)}.`,
          en:`Both the original charge and the refund appear on your card statement as ${LTR(COMPANY.descriptor)}.`},
       ]},
-      { h:{ar:"9. الشكاوى والتواصل", en:"9. Complaints and contact"}, paras:[
+      { h:{ar:"10. الشكاوى والتواصل", en:"10. Complaints and contact"}, paras:[
         {ar:"إذا لم تكن راضياً عن قرارنا بشأن طلب استرداد، يمكنك طلب مراجعته وسيتولى مسؤول أعلى دراسة الحالة والرد عليك خلال سبعة أيام عمل.",
          en:"If you are not satisfied with our decision on a refund request, you may ask for it to be reviewed; a senior manager will consider the case and respond within seven business days."},
         {ar:`${LT.legalName} — ${LT.address}. البريد: ${LT.email} — واتساب: ${LT.whatsapp}.`,
@@ -1111,6 +1168,7 @@ const DATA = {
     { key:"growth", name:{ar:"نمو",en:"Growth"}, bullets:{ar:["كل ما في الأساسية","متجر إلكتروني بدومين خاص","CRM وكوبونات وتقييمات","نقطة بيع POS"],en:["Everything in Starter","Online store with custom domain","CRM, coupons & reviews","Point of Sale"]} },
     { key:"pro", highlight:true, name:{ar:"احترافية",en:"Pro"}, bullets:{ar:["كل ما في النمو","محاسبة كاملة","مشتريات وتكاليف","واتساب أعمال وبريد وتقارير مجدولة"],en:["Everything in Growth","Full accounting","Purchasing & costing","WhatsApp business, email & scheduled reports"]} },
     { key:"ent", name:{ar:"متقدمة",en:"Enterprise"}, bullets:{ar:["كل ما في الاحترافية","وكيل ذكاء اصطناعي على واتساب","إعلانات ميتا وكتالوج منتجات","مدفوعات وأدوار فريق كاملة"],en:["Everything in Pro","AI agent on WhatsApp","Meta ads & product catalog","Payments & full team roles"]} },
+    { key:"custom", custom:true, name:{ar:"مخصّصة",en:"Custom"}, bullets:{ar:["موديولات مختارة حسب احتياجك","تكاملات مع أنظمتك الحالية","ترحيل بياناتك من نظامك القديم","مدير حساب ودعم بأولوية","اتفاقية مستوى خدمة (SLA)","تدريب فريقك على المنصة"],en:["Modules picked for your needs","Integrations with your systems","Migration from your current system","Account manager & priority support","Service level agreement (SLA)","Training for your team"]} },
   ],
   roles: [
     { initial:"M", name:{ar:"مدير الشركة",en:"Company Manager"}, desc:{ar:"لوحة كاملة، إعدادات، محاسبة وإحصائيات.",en:"Full dashboard, settings, accounting and analytics."} },
@@ -1145,7 +1203,7 @@ const DATA = {
 };
 
 class Component extends DCLogic {
-  state = { page:currentPage(), lang:currentLang(), form:{name:"",phone:"",company:"",message:"",plan:requestedPlan(),biz:"",email:"",agreed:false}, submitted:false, subSubmitted:false, agreeWarn:false, statProgress:0, menuOpen:false, revealProg:0 };
+  state = { page:currentPage(), lang:currentLang(), form:{name:"",phone:"",company:"",message:"",plan:requestedPlan(),biz:"",email:"",agreed:false,trial:requestedTrial()}, submitted:false, subSubmitted:false, agreeWarn:false, statProgress:0, menuOpen:false, revealProg:0 };
 
   componentDidMount(){
     let step = 0;
@@ -1176,6 +1234,16 @@ class Component extends DCLogic {
   componentWillUnmount(){ clearInterval(this._timer); clearInterval(this._rtimer); this._io && this._io.disconnect(); }
 
   pick(obj){ return obj[this.state.lang]; }
+
+  modeCard(key, label, hint, on, trial){
+    return {
+      key, label, hint, on,
+      bg: on ? "rgba(101,212,210,.12)" : "rgba(232,255,254,.03)",
+      border: on ? "1.5px solid #65D4D2" : "1px solid rgba(101,212,210,.18)",
+      color: on ? "#65D4D2" : "#E8FFFE",
+      pick: () => this.setState({form:{...this.state.form, trial}}),
+    };
+  }
 
   navLink(it, L){
     const on = this.state.page === it.key;
@@ -1311,26 +1379,41 @@ class Component extends DCLogic {
         title: L==="ar" ? "باقات مرنة تناسب حجم عملك" : "Flexible plans for every business size",
         popular: L==="ar" ? "الأكثر طلباً" : "Most popular",
         cta: L==="ar" ? "اشترك الآن" : "Subscribe now",
+        trialTitle: L==="ar" ? `جرّب المنصة ${TRIAL_DAYS} يوماً مجاناً` : `Try the platform free for ${TRIAL_DAYS} days`,
+        trialBody: L==="ar"
+          ? `ابدأ على أي باقة مدفوعة بتجربة مجانية كاملة لمدة ${TRIAL_DAYS} يوماً — بكل مزايا الباقة، بدون بطاقة ائتمان، وبدون أي خصم تلقائي عند انتهائها. تقرّر بعدها إن كنت تريد الاشتراك أو لا.`
+          : `Start on any paid plan with a full ${TRIAL_DAYS}-day free trial — every feature of the plan, no credit card, and no automatic charge when it ends. You decide afterwards whether to subscribe.`,
+        trialCta: L==="ar" ? "ابدأ التجربة المجانية" : "Start the free trial",
+        trialHref: PAGE_FILE.subscribe + "?trial=1",
         note: L==="ar"
-          ? `الأسعار معروضة بالدينار الكويتي (KWD) وتُدفع مقدماً عن سنة كاملة. ولأن ${LT.legalName} شركة مسجّلة في الولايات المتحدة، يتم التحصيل والتسوية بالدولار الأمريكي (USD)؛ والمبالغ بالدولار المبيّنة أعلاه تقريبية بسعر صرف إرشادي، ويُثبَّت المبلغ النهائي على الفاتورة قبل الدفع. الأسعار لا تشمل أي ضرائب أو رسوم حكومية قد تُطبَّق حسب بلد العميل. يتجدد الاشتراك تلقائياً سنوياً ويمكن إلغاؤه في أي وقت قبل التجديد بسبعة أيام، ويُفعَّل الحساب خلال يوم عمل واحد من تأكيد الدفع.`
-          : `Prices are listed in Kuwaiti Dinar (KWD) and paid in advance for a full year. As ${LT.legalName} is a US-registered company, charges are processed and settled in US Dollars (USD); the USD amounts shown above are approximate, based on an indicative exchange rate, and the final amount is fixed on the invoice before payment. Prices exclude any taxes or government fees that may apply in the customer's country. Subscriptions renew automatically each year and can be cancelled any time up to seven days before renewal. Accounts are activated within one business day of payment confirmation.`,
+          ? `كل باقة مدفوعة تبدأ بتجربة مجانية ${TRIAL_DAYS} يوماً بدون بطاقة ائتمان وبدون تحويل تلقائي إلى اشتراك مدفوع. والأسعار معروضة بالدينار الكويتي (KWD) وتُدفع مقدماً عن سنة كاملة. ولأن ${LT.legalName} شركة مسجّلة في الولايات المتحدة، يتم التحصيل والتسوية بالدولار الأمريكي (USD)؛ والمبالغ بالدولار المبيّنة أعلاه تقريبية بسعر صرف إرشادي، ويُثبَّت المبلغ النهائي على الفاتورة قبل الدفع. الأسعار لا تشمل أي ضرائب أو رسوم حكومية قد تُطبَّق حسب بلد العميل. يتجدد الاشتراك تلقائياً سنوياً ويمكن إلغاؤه في أي وقت قبل التجديد بسبعة أيام، ويُفعَّل الحساب خلال يوم عمل واحد من تأكيد الدفع.`
+          : `Every paid plan can start with a ${TRIAL_DAYS}-day free trial, with no credit card and no automatic conversion to a paid subscription. Prices are listed in Kuwaiti Dinar (KWD) and paid in advance for a full year. As ${LT.legalName} is a US-registered company, charges are processed and settled in US Dollars (USD); the USD amounts shown above are approximate, based on an indicative exchange rate, and the final amount is fixed on the invoice before payment. Prices exclude any taxes or government fees that may apply in the customer's country. Subscriptions renew automatically each year and can be cancelled any time up to seven days before renewal. Accounts are activated within one business day of payment confirmation.`,
         items: DATA.packages.map(p => {
-          const usd = Math.round(PRICES_KWD[p.key] * USD_PER_KWD);
+          const priced = !p.custom;
+          const usd = priced ? Math.round(PRICES_KWD[p.key] * USD_PER_KWD) : 0;
           return {
             name: this.pick(p.name),
-            priceNum: String(PRICES_KWD[p.key]),
-            priceCur: L==="ar"?"د.ك (KWD)":"KWD",
-            pricePeriod: L==="ar"?"/ سنوياً":"/ per year",
-            priceUsd: LTR(`≈ $${usd.toLocaleString("en")} USD`),
+            priceNum: priced ? String(PRICES_KWD[p.key]) : (L==="ar" ? "حسب الطلب" : "On request"),
+            priceCur: priced ? (L==="ar"?"د.ك (KWD)":"KWD") : "",
+            pricePeriod: priced ? (L==="ar"?"/ سنوياً":"/ per year") : "",
+            priceUsd: priced ? LTR(`≈ $${usd.toLocaleString("en")} USD`)
+                             : (L==="ar" ? "نبني لك الباقة وسعرها حسب حجم عملك" : "We scope the plan and its price to your business"),
+            priceSize: priced ? "28px" : "22px",
+            trialLine: priced ? (L==="ar" ? `أول ${TRIAL_DAYS} يوماً مجاناً` : `First ${TRIAL_DAYS} days free`)
+                              : (L==="ar" ? "تجربة مجانية حسب الاتفاق" : "Trial arranged with you"),
             planKey: p.key,
             bullets: this.pick(p.bullets),
             highlight: !!p.highlight,
             bg: p.highlight ? "rgba(101,212,210,.09)" : "rgba(232,255,254,.03)",
-            border: p.highlight ? "1.5px solid rgba(101,212,210,.65)" : "1px solid rgba(101,212,210,.18)",
+            border: p.highlight ? "1.5px solid rgba(101,212,210,.65)"
+                    : p.custom ? "1px dashed rgba(101,212,210,.4)" : "1px solid rgba(101,212,210,.18)",
             titleColor: p.highlight ? "#65D4D2" : "#E8FFFE",
             ctaBg: p.highlight ? "#65D4D2" : "transparent",
             ctaColor: p.highlight ? "#041316" : "#65D4D2",
-            subscribeHref: PAGE_FILE.subscribe + "?plan=" + p.key,
+            ctaLabel: priced ? (L==="ar" ? "اشترك الآن" : "Subscribe now")
+                             : (L==="ar" ? "اطلب عرض سعر" : "Request a quote"),
+            // A custom plan cannot be self-served, so it goes to sales.
+            subscribeHref: priced ? PAGE_FILE.subscribe + "?plan=" + p.key : PAGE_FILE.contact,
           };
         }),
       },
@@ -1415,27 +1498,56 @@ class Component extends DCLogic {
         paymentsLabel: L==="ar" ? "طرق الدفع المقبولة:" : "Accepted payment methods:",
       },
       subscribe: {
-        title: L==="ar" ? "إتمام الاشتراك" : "Complete your subscription",
-        sub: L==="ar"
-          ? "اختر الباقة المناسبة وأدخل بيانات منشأتك، ونرسل لك فاتورة ورابط دفع آمن لإتمام العملية."
-          : "Choose your plan and enter your business details. We'll send you an invoice and a secure payment link to complete the process.",
-        planLabel: L==="ar" ? "1. اختر الباقة" : "1. Choose your plan",
-        detailsLabel: L==="ar" ? "2. بيانات المنشأة" : "2. Business details",
+        title: this.state.form.trial
+          ? (L==="ar" ? `ابدأ تجربتك المجانية ${TRIAL_DAYS} يوماً` : `Start your ${TRIAL_DAYS}-day free trial`)
+          : (L==="ar" ? "إتمام الاشتراك" : "Complete your subscription"),
+        sub: this.state.form.trial
+          ? (L==="ar"
+              ? `اختر الباقة التي تريد تجربتها وأدخل بيانات منشأتك. لا نطلب بطاقة ائتمان، ولا يتم خصم أي مبلغ عند انتهاء التجربة.`
+              : `Choose the plan you want to try and enter your business details. No credit card is required, and nothing is charged when the trial ends.`)
+          : (L==="ar"
+              ? "اختر الباقة المناسبة وأدخل بيانات منشأتك، ونرسل لك فاتورة ورابط دفع آمن لإتمام العملية."
+              : "Choose your plan and enter your business details. We'll send you an invoice and a secure payment link to complete the process."),
+        modeLabel: L==="ar" ? "نوع الطلب" : "Request type",
+        modes: [
+          this.modeCard("trial", L==="ar" ? `تجربة مجانية ${TRIAL_DAYS} يوماً` : `Free ${TRIAL_DAYS}-day trial`,
+                        L==="ar" ? "بدون بطاقة ائتمان" : "No credit card", !!this.state.form.trial, true),
+          this.modeCard("paid", L==="ar" ? "اشتراك سنوي مدفوع" : "Paid annual subscription",
+                        L==="ar" ? "فاتورة ورابط دفع" : "Invoice & payment link", !this.state.form.trial, false),
+        ],
+        planLabel: L==="ar" ? "2. اختر الباقة" : "2. Choose your plan",
+        detailsLabel: L==="ar" ? "3. بيانات المنشأة" : "3. Business details",
         selected: L==="ar" ? "مختارة" : "Selected",
         perYear: L==="ar" ? "سنوياً" : "per year",
-        submit: L==="ar" ? "أرسل طلب الاشتراك" : "Submit subscription request",
+        submit: this.state.form.trial
+          ? (L==="ar" ? "ابدأ التجربة المجانية" : "Start the free trial")
+          : (L==="ar" ? "أرسل طلب الاشتراك" : "Submit subscription request"),
         stepsTitle: L==="ar" ? "ماذا يحدث بعد الإرسال؟" : "What happens next?",
-        steps: L==="ar" ? [
-          "نراجع طلبك ونتواصل معك لتأكيد الباقة وأي متطلبات خاصة بعملك.",
-          "نرسل لك فاتورة رسمية باسم " + COMPANY.legalName + " تتضمن المبلغ النهائي المستحق.",
-          "تدفع عبر رابط دفع آمن يقبل بطاقات Visa وMastercard وAmerican Express.",
-          "يُفعَّل حسابك ونسلّمك بيانات الدخول خلال يوم عمل واحد من تأكيد الدفع.",
-        ] : [
-          "We review your request and contact you to confirm the plan and any specific requirements.",
-          "We send a formal invoice issued by " + COMPANY.legalName + " showing the final amount due.",
-          "You pay through a secure payment link accepting Visa, Mastercard and American Express.",
-          "Your account is activated and credentials delivered within one business day of payment confirmation.",
-        ],
+        steps: this.state.form.trial
+          ? (L==="ar" ? [
+              "نراجع طلبك ونتواصل معك لتفعيل حسابك التجريبي.",
+              `يُفعَّل حسابك بكامل مزايا الباقة المختارة لمدة ${TRIAL_DAYS} يوماً، خلال يوم عمل واحد.`,
+              "لا نطلب منك بطاقة ائتمان، ولا يُخصم أي مبلغ خلال التجربة أو عند انتهائها.",
+              `نذكّرك قبل انتهاء التجربة بيومين، وإذا رغبت بالاستمرار نرسل لك فاتورة الاشتراك السنوي.`,
+              "إذا لم ترغب بالاستمرار، تنتهي التجربة تلقائياً ويمكنك تصدير بياناتك.",
+            ] : [
+              "We review your request and get in touch to activate your trial account.",
+              `Your account is activated with every feature of the chosen plan for ${TRIAL_DAYS} days, within one business day.`,
+              "We ask for no credit card, and nothing is charged during the trial or when it ends.",
+              "We remind you two days before the trial ends, and send an invoice for the annual subscription only if you want to continue.",
+              "If you would rather not continue, the trial simply ends and you can export your data.",
+            ])
+          : (L==="ar" ? [
+              "نراجع طلبك ونتواصل معك لتأكيد الباقة وأي متطلبات خاصة بعملك.",
+              "نرسل لك فاتورة رسمية باسم " + COMPANY.legalName + " تتضمن المبلغ النهائي المستحق.",
+              "تدفع عبر رابط دفع آمن يقبل بطاقات Visa وMastercard وAmerican Express.",
+              "يُفعَّل حسابك ونسلّمك بيانات الدخول خلال يوم عمل واحد من تأكيد الدفع.",
+            ] : [
+              "We review your request and contact you to confirm the plan and any specific requirements.",
+              "We send a formal invoice issued by " + COMPANY.legalName + " showing the final amount due.",
+              "You pay through a secure payment link accepting Visa, Mastercard and American Express.",
+              "Your account is activated and credentials delivered within one business day of payment confirmation.",
+            ]),
         agreeText: L==="ar"
           ? "أقرّ بأنني قرأت ووافقت على شروط الاستخدام وسياسة الخصوصية وسياسة الاسترجاع والإلغاء."
           : "I have read and agree to the Terms of Service, Privacy Policy and Refund & Cancellation Policy.",
@@ -1444,14 +1556,24 @@ class Component extends DCLogic {
           { label: L==="ar" ? "سياسة الخصوصية" : "Privacy Policy", href: PAGE_FILE.privacy },
           { label: L==="ar" ? "سياسة الاسترجاع والإلغاء" : "Refund & Cancellation", href: PAGE_FILE.refund },
         ],
-        terms: L==="ar"
-          ? `الاشتراك سنوي ويُدفع مقدماً، ويحق لك استرداد كامل المبلغ خلال 14 يوماً من بدء الاشتراك. ويظهر الخصم على كشف حساب بطاقتك باسم ${LTR(COMPANY.descriptor)}.`
-          : `Subscriptions are annual and paid in advance, with a full refund available within 14 days of the subscription start. Charges appear on your card statement as ${LTR(COMPANY.descriptor)}.`,
+        terms: this.state.form.trial
+          ? (L==="ar"
+              ? `التجربة مجانية بالكامل لمدة ${TRIAL_DAYS} يوماً ولا تتطلب أي وسيلة دفع، ولا تتحول إلى اشتراك مدفوع تلقائياً. الاشتراك بعدها سنوي ويُدفع مقدماً، ويظهر الخصم على كشف حساب بطاقتك باسم ${LTR(COMPANY.descriptor)}.`
+              : `The trial is entirely free for ${TRIAL_DAYS} days, requires no payment method, and does not convert into a paid subscription automatically. Any subscription afterwards is annual and paid in advance, and appears on your card statement as ${LTR(COMPANY.descriptor)}.`)
+          : (L==="ar"
+              ? `الاشتراك سنوي ويُدفع مقدماً، ويحق لك استرداد كامل المبلغ خلال ${TRIAL_DAYS} يوماً من بدء الاشتراك. ويظهر الخصم على كشف حساب بطاقتك باسم ${LTR(COMPANY.descriptor)}.`
+              : `Subscriptions are annual and paid in advance, with a full refund available within ${TRIAL_DAYS} days of the subscription start. Charges appear on your card statement as ${LTR(COMPANY.descriptor)}.`),
         agreeWarning: L==="ar" ? "يرجى الموافقة على الشروط قبل الإرسال." : "Please accept the terms before submitting.",
-        successTitle: L==="ar" ? "استلمنا طلب اشتراكك" : "We've received your request",
-        successBody: L==="ar"
-          ? "شكراً لك. سيتواصل معك فريقنا خلال يوم عمل واحد لتأكيد التفاصيل وإرسال الفاتورة ورابط الدفع الآمن."
-          : "Thank you. Our team will contact you within one business day to confirm the details and send your invoice and secure payment link.",
+        successTitle: this.state.form.trial
+          ? (L==="ar" ? "استلمنا طلب تجربتك المجانية" : "We've received your trial request")
+          : (L==="ar" ? "استلمنا طلب اشتراكك" : "We've received your request"),
+        successBody: this.state.form.trial
+          ? (L==="ar"
+              ? `شكراً لك. سيتواصل معك فريقنا خلال يوم عمل واحد لتفعيل حسابك التجريبي لمدة ${TRIAL_DAYS} يوماً. لن يُطلب منك أي وسيلة دفع.`
+              : `Thank you. Our team will contact you within one business day to activate your ${TRIAL_DAYS}-day trial account. No payment method will be requested.`)
+          : (L==="ar"
+              ? "شكراً لك. سيتواصل معك فريقنا خلال يوم عمل واحد لتأكيد التفاصيل وإرسال الفاتورة ورابط الدفع الآمن."
+              : "Thank you. Our team will contact you within one business day to confirm the details and send your invoice and secure payment link."),
         bizPlaceholder: L==="ar" ? "اسم المنشأة" : "Business name",
         namePlaceholder: L==="ar" ? "اسم مسؤول التواصل" : "Contact person",
         emailPlaceholder: L==="ar" ? "البريد الإلكتروني" : "Email address",

@@ -3,9 +3,14 @@
 
 The standalone file is the same site with support.js inlined and every
 assets/ reference replaced by a data: URI, so it can be imported or opened
-as a single file. Regenerate it after any change to index.html:
+as a single file. Regenerate it after any change to index.html, and after
+build-pages.py (which rewrites index.html's head):
 
-    python3 build-standalone.py
+    python3 build-pages.py && python3 build-standalone.py
+
+Since the site became multi-page, the links inside this file point at the
+sibling page files (about.html, terms.html, ...), so navigation only works
+when it sits alongside them. On its own it still renders the home page.
 """
 
 import base64

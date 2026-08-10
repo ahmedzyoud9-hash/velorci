@@ -6,6 +6,8 @@ Every page exists in both languages, each as its own file with its own URL:
     /ar/index.html  /ar/about.html  /ar/terms.html  ...
     /en/index.html  /en/about.html  /en/terms.html  ...
     /index.html     -> sends visitors to the right tree
+    /sitemap.xml    -> every page in both languages
+    /robots.txt
 
 src/site.html is the single source. It carries every page's markup and the
 shared logic, and picks which page and which language to render from the two
@@ -178,6 +180,33 @@ def render(base: str, key: str, out_name: str, lang: str, title: str, desc: str)
     return html
 
 
+def write_sitemap() -> int:
+    """List every page in both languages, each with its hreflang alternates."""
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+             '        xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    for lang in LANGS:
+        for _, out_name, _ in PAGES:
+            lines.append("  <url>")
+            lines.append(f"    <loc>{SITE}/{lang}/{out_name}</loc>")
+            for other in LANGS:
+                lines.append(f'    <xhtml:link rel="alternate" hreflang="{other}" '
+                             f'href="{SITE}/{other}/{out_name}"/>')
+            lines.append(f'    <xhtml:link rel="alternate" hreflang="x-default" '
+                         f'href="{SITE}/ar/{out_name}"/>')
+            lines.append("    <changefreq>monthly</changefreq>")
+            lines.append("  </url>")
+    lines.append("</urlset>")
+    (ROOT / "sitemap.xml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    (ROOT / "robots.txt").write_text(
+        "User-agent: *\n"
+        "Allow: /\n"
+        f"\nSitemap: {SITE}/sitemap.xml\n",
+        encoding="utf-8")
+    return len(LANGS) * len(PAGES)
+
+
 def main() -> int:
     if not SRC.exists():
         print(f"error: {SRC} not found", file=sys.stderr)
@@ -206,8 +235,10 @@ def main() -> int:
         print(f"  {lang}/ — {len(PAGES)} pages")
 
     (ROOT / "index.html").write_text(ROOT_REDIRECT.format(site=SITE), encoding="utf-8")
-    print(f"  index.html — language redirect")
-    print(f"wrote {count + 1} files")
+    print("  index.html — language redirect")
+    urls = write_sitemap()
+    print(f"  sitemap.xml — {urls} urls, robots.txt")
+    print(f"wrote {count + 3} files")
     return 0
 
 

@@ -3,14 +3,15 @@
 
 The standalone file is the same site with support.js inlined and every
 assets/ reference replaced by a data: URI, so it can be imported or opened
-as a single file. Regenerate it after any change to index.html, and after
-build-pages.py (which rewrites index.html's head):
+as a single file. It is built from the generated Arabic home page, so run
+build-pages.py first:
 
     python3 build-pages.py && python3 build-standalone.py
 
 Since the site became multi-page, the links inside this file point at the
 sibling page files (about.html, terms.html, ...), so navigation only works
-when it sits alongside them. On its own it still renders the home page.
+when it sits in ar/ alongside them. On its own it still renders the home
+page.
 """
 
 import base64
@@ -20,11 +21,11 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).parent
-SRC = ROOT / "index.html"
+SRC = ROOT / "ar" / "index.html"
 RUNTIME = ROOT / "support.js"
 OUT = ROOT / "velorci-standalone.html"
 
-RUNTIME_TAG = '<script src="./support.js"></script>'
+RUNTIME_TAG = '<script src="../support.js"></script>'
 
 # Inlining the runtime puts its source into the document, and that source
 # contains the literal text "<x-dc>" inside an error message. On boot the
@@ -53,15 +54,15 @@ def main() -> int:
         SELF_CONTAINED_GUARD + "\n<script>\n" + RUNTIME.read_text(encoding="utf-8") + "\n</script>",
     )
 
-    refs = sorted(set(re.findall(r"assets/[\w.-]+", html)))
-    missing = [r for r in refs if not (ROOT / r).exists()]
+    refs = sorted(set(re.findall(r"\.\./assets/[\w.-]+", html)))
+    missing = [r for r in refs if not (ROOT / r.removeprefix("../")).exists()]
     if missing:
         print("error: missing assets: " + ", ".join(missing), file=sys.stderr)
         return 1
     for ref in refs:
-        html = html.replace(ref, data_uri(ROOT / ref))
+        html = html.replace(ref, data_uri(ROOT / ref.removeprefix("../")))
 
-    left = re.findall(r"assets/[\w.-]+", html)
+    left = re.findall(r"\.\./assets/[\w.-]+", html)
     if left:
         print("error: unresolved asset references remain: " + ", ".join(sorted(set(left))), file=sys.stderr)
         return 1

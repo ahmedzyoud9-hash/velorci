@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
 <meta property="og:site_name" content="velorci">
 <meta property="og:title" content="velorci — منصة تشغيل الأعمال المتكاملة">
 <meta property="og:description" content="منصة تشغيل أعمال متكاملة تدير الطلبات والتوصيل والمتجر والمحاسبة وواتساب والإعلانات ونقطة البيع — من لوحة واحدة.">
-<meta property="og:url" content="https://www.velorci.com/">
+<meta property="og:url" content="https://www.velorci.com/ar/index.html">
 <meta property="og:image" content="https://www.velorci.com/og.jpg">
 <meta property="og:image:secure_url" content="https://www.velorci.com/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -1872,7 +1872,12 @@
 </script>
 
 <meta name="velorci-page" content="home">
-<link rel="canonical" href="https://www.velorci.com/">
+<meta name="velorci-lang" content="ar">
+<meta property="og:locale" content="ar_KW">
+<link rel="canonical" href="https://www.velorci.com/ar/index.html">
+<link rel="alternate" hreflang="ar" href="https://www.velorci.com/ar/index.html">
+<link rel="alternate" hreflang="en" href="https://www.velorci.com/en/index.html">
+<link rel="alternate" hreflang="x-default" href="https://www.velorci.com/ar/index.html">
 </head>
 <body>
 <x-dc>
@@ -1951,7 +1956,7 @@
       </div>
     </nav>
     <div class="r-actions" style="display:flex; align-items:center; gap:10px;">
-      <div onClick="{{ toggleLang }}" style="padding:8px 14px; border-radius:20px; border:1px solid rgba(101,212,210,.4); font-size:13px; font-weight:700; cursor:pointer; color:#65D4D2; font-family:Poppins,sans-serif; transition:all .2s;" style-hover="background:rgba(101,212,210,.12);">{{ t.langSwitchLabel }}</div>
+      <a href="{{ t.langSwitchHref }}" title="{{ t.langSwitchTitle }}" style="padding:8px 14px; border-radius:20px; border:1px solid rgba(101,212,210,.4); font-size:13px; font-weight:700; cursor:pointer; text-decoration:none; color:#65D4D2; font-family:Poppins,sans-serif; transition:all .2s;" style-hover="background:rgba(101,212,210,.12);">{{ t.langSwitchLabel }}</a>
       <a href="https://my.velorci.com" target="_blank" rel="noopener" style="padding:10px 18px; border-radius:22px; border:1px solid rgba(101,212,210,.45); background:transparent; color:#65D4D2; font-weight:700; font-size:14px; text-decoration:none; font-family:{{ t.headingFont }}; white-space:nowrap; transition:all .2s;" style-hover="background:rgba(101,212,210,.12);">{{ t.nav.login }}</a>
       <a href="contact.html" style="padding:10px 20px; border-radius:22px; background:#65D4D2; color:#041316; font-weight:800; font-size:14px; cursor:pointer; text-decoration:none; font-family:{{ t.headingFont }}; white-space:nowrap; box-shadow:0 0 24px rgba(101,212,210,.35); transition:transform .2s;" style-hover="transform:translateY(-2px);">{{ t.nav.cta }}</a>
     </div>
@@ -2597,17 +2602,15 @@ function currentPage() {
   return PAGES.some(p => p.key === key) ? key : "home";
 }
 
-// Each page is a separate document, so the chosen language has to survive
-// navigation between them.
-const LANG_KEY = "velorci:lang";
-function storedLang() {
-  try {
-    const v = localStorage.getItem(LANG_KEY);
-    return v === "ar" || v === "en" ? v : "ar";
-  } catch { return "ar"; }
-}
-function storeLang(v) {
-  try { localStorage.setItem(LANG_KEY, v); } catch {}
+// Every page exists in both languages, at /ar/<page> and /en/<page>. The
+// language is a property of the URL, declared by the meta tag that
+// build-pages.py writes into each generated file — switching language is a
+// link to the same page in the other tree, not a client-side toggle.
+const LANGS = ["ar", "en"];
+function currentLang() {
+  const m = document.querySelector('meta[name="velorci-lang"]');
+  const v = m && m.getAttribute("content");
+  return LANGS.includes(v) ? v : "ar";
 }
 
 // A plan chosen from a pricing card arrives as ?plan=pro on subscribe.html.
@@ -2953,7 +2956,7 @@ const DATA = {
 };
 
 class Component extends DCLogic {
-  state = { page:currentPage(), lang:storedLang(), form:{name:"",phone:"",company:"",message:"",plan:requestedPlan(),biz:"",email:""}, submitted:false, subSubmitted:false, statProgress:0, menuOpen:false, revealProg:0 };
+  state = { page:currentPage(), lang:currentLang(), form:{name:"",phone:"",company:"",message:"",plan:requestedPlan(),biz:"",email:""}, submitted:false, subSubmitted:false, statProgress:0, menuOpen:false, revealProg:0 };
 
   componentDidMount(){
     let step = 0;
@@ -3016,6 +3019,8 @@ class Component extends DCLogic {
       chipSide1: L==="ar" ? "right" : "left",
       chipSide2: L==="ar" ? "left" : "right",
       langSwitchLabel: L==="ar" ? "EN" : "AR",
+      langSwitchHref: "../" + (L==="ar" ? "en" : "ar") + "/" + (PAGE_FILE[this.state.page] || "index.html"),
+      langSwitchTitle: L==="ar" ? "English version" : "النسخة العربية",
       nav: { cta: L==="ar" ? "احجز عرضاً" : "Book a demo", login: L==="ar" ? "دخول لوحة التحكم" : "Dashboard login" },
       hero: {
         title: L==="ar" ? "كل عملك في لوحة واحدة" : "Your entire business in one dashboard",
@@ -3261,7 +3266,6 @@ class Component extends DCLogic {
       toggleMenu: () => this.setState({menuOpen: !this.state.menuOpen}),
       navItems: PAGES.filter(it => it.nav).map(it => this.navLink(it, L)),
       navExtraItems: PAGES.filter(it => !it.nav).map(it => this.navLink(it, L)),
-      toggleLang: () => { const next = this.state.lang==="ar" ? "en" : "ar"; storeLang(next); this.setState({lang: next}); },
       isHome: this.state.page==="home",
       isAbout: this.state.page==="about",
       isServices: this.state.page==="services",

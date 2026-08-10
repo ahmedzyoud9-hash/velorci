@@ -423,7 +423,7 @@
                 <div style="position:absolute; top:-12px; inset-inline-start:22px; padding:4px 14px; border-radius:12px; background:#65D4D2; color:#041316; font-size:11.5px; font-weight:800;">{{ t.packages.popular }}</div>
               </sc-if>
               <div style="font-family:{{ t.headingFont }}; font-weight:800; font-size:20px; color:{{ pk.titleColor }};">{{ pk.name }}</div>
-              <div style="font-family:Poppins,sans-serif; font-size:28px; font-weight:800; color:#65D4D2; margin-bottom:6px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span></div>
+              <div style="font-family:Poppins,sans-serif; font-size:28px; font-weight:800; color:#65D4D2; margin-bottom:6px;">{{ pk.priceNum }} <span style="font-size:14px; font-weight:600; color:rgba(232,255,254,.6);">{{ pk.priceCur }}</span> <span style="font-size:13px; font-weight:600; color:rgba(232,255,254,.5);">{{ pk.pricePeriod }}</span></div>
               <div style="display:flex; flex-direction:column; gap:10px;">
                 <sc-for list="{{ pk.bullets }}" as="b" hint-placeholder-count="4">
                   <div style="display:flex; gap:9px; align-items:flex-start;">
@@ -515,6 +515,7 @@
             </div>
           </sc-for>
         </div>
+        <p style="max-width:820px; margin:36px auto 0; text-align:center; font-size:13.5px; line-height:1.9; color:rgba(232,255,254,.5);">{{ t.packages.note }}</p>
       </div>
     </section>
   </sc-if>
@@ -549,6 +550,11 @@
           <div style="font-size:14.5px; color:rgba(232,255,254,.6);"><strong style="color:#65D4D2;">{{ t.contact.whatsappLabel }}</strong> +965 96984525</div>
           <div style="font-size:14.5px; color:rgba(232,255,254,.6);"><strong style="color:#65D4D2;">{{ t.contact.regionLabel }}</strong> {{ t.contact.regionValue }}</div>
         </div>
+        <div style="display:flex; flex-direction:column; gap:9px; margin-top:6px; padding:18px 20px; background:rgba(101,212,210,.05); border:1px solid rgba(101,212,210,.18); border-radius:14px;">
+          <div style="font-size:13.5px; color:rgba(232,255,254,.6);"><strong style="color:#65D4D2;">{{ t.contact.companyLabel }}</strong> {{ t.contact.companyValue }}</div>
+          <div style="font-size:13.5px; color:rgba(232,255,254,.6);"><strong style="color:#65D4D2;">{{ t.contact.regNoLabel }}</strong> <span dir="ltr" style="unicode-bidi:isolate; white-space:nowrap;">{{ t.contact.regNoValue }}</span></div>
+          <div style="font-size:13.5px; line-height:1.7; color:rgba(232,255,254,.6);"><strong style="color:#65D4D2;">{{ t.contact.addressLabel }}</strong> <span dir="ltr" style="unicode-bidi:isolate;">{{ t.contact.addressValue }}</span></div>
+        </div>
         <img src="assets/pattern-dark.png" style="width:260px; opacity:.3; margin-top:20px;">
       </div>
       <sc-if value="{{ formSubmitted }}" hint-placeholder-val="{{ false }}">
@@ -569,18 +575,330 @@
     </section>
   </sc-if>
 
-  <footer style="padding:38px 40px; border-top:1px solid rgba(101,212,210,.14); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
-    <div style="display:flex; align-items:center; gap:9px;">
-      <img src="assets/logo-turq.png" style="height:22px; width:auto; display:block;">
-      <span style="font-family:Poppins,sans-serif; font-weight:700; font-size:15px; color:#E8FFFE;">velorci</span>
+  <sc-if value="{{ isLegal }}" hint-placeholder-val="{{ false }}">
+    <section style="padding:90px 40px 30px; max-width:860px; margin:0 auto; display:flex; flex-direction:column; gap:14px; animation:fadeUp .6s ease both;">
+      <h1 style="font-family:{{ t.headingFont }}; font-size:40px; font-weight:900; margin:0; background:linear-gradient(135deg,#E8FFFE 30%,#65D4D2); -webkit-background-clip:text; background-clip:text; color:transparent;">{{ t.legal.title }}</h1>
+      <div style="font-size:13.5px; color:rgba(232,255,254,.45);">{{ t.legal.updated }}</div>
+      <div style="font-size:13.5px; line-height:1.8; color:rgba(232,255,254,.55); padding:16px 18px; background:rgba(101,212,210,.05); border:1px solid rgba(101,212,210,.18); border-radius:12px;">{{ t.footer.entityPrefix }} <span dir="ltr" style="unicode-bidi:isolate; white-space:nowrap;">{{ t.footer.regNo }}</span><br><span dir="ltr" style="unicode-bidi:isolate;">{{ t.footer.address }}</span></div>
+    </section>
+    <section style="padding:20px 40px 100px; max-width:860px; margin:0 auto; display:flex; flex-direction:column; gap:34px; animation:fadeUp .6s .15s ease both;">
+      <sc-for list="{{ t.legal.sections }}" as="sec" hint-placeholder-count="12">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <h2 style="font-family:{{ t.headingFont }}; font-size:20px; font-weight:800; margin:0; color:#65D4D2;">{{ sec.h }}</h2>
+          <sc-for list="{{ sec.paras }}" as="p" hint-placeholder-count="3">
+            <p style="font-size:15px; line-height:1.9; color:rgba(232,255,254,.72); margin:0;">{{ p }}</p>
+          </sc-for>
+        </div>
+      </sc-for>
+    </section>
+  </sc-if>
+
+  <footer style="padding:38px 40px 30px; border-top:1px solid rgba(101,212,210,.14); display:flex; flex-direction:column; gap:22px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+      <div style="display:flex; align-items:center; gap:9px;">
+        <img src="assets/logo-turq.png" style="height:22px; width:auto; display:block;">
+        <span style="font-family:Poppins,sans-serif; font-weight:700; font-size:15px; color:#E8FFFE;">velorci</span>
+      </div>
+      <div style="display:flex; align-items:center; flex-wrap:wrap; gap:20px;">
+        <a onClick="{{ goTo.terms }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.terms }}</a>
+        <a onClick="{{ goTo.privacy }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.privacy }}</a>
+        <a onClick="{{ goTo.refund }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.refund }}</a>
+        <a onClick="{{ goTo.contact }}" style="font-size:13px; color:rgba(232,255,254,.6); cursor:pointer; text-decoration:none;" style-hover="color:#65D4D2;">{{ t.footer.contact }}</a>
+      </div>
     </div>
-    <div style="font-size:13px; color:rgba(232,255,254,.45);">{{ t.footer.rights }}</div>
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; padding-top:20px; border-top:1px solid rgba(101,212,210,.09);">
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <div style="font-size:12.5px; line-height:1.7; color:rgba(232,255,254,.42);">{{ t.footer.entityPrefix }} <span dir="ltr" style="unicode-bidi:isolate; white-space:nowrap;">{{ t.footer.regNo }}</span></div>
+        <div style="font-size:12.5px; line-height:1.7; color:rgba(232,255,254,.42);">{{ t.footer.address }}</div>
+        <div style="font-size:12.5px; line-height:1.7; color:rgba(232,255,254,.42);">{{ t.footer.rights }}</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:12px; color:rgba(232,255,254,.42);">{{ t.footer.paymentsLabel }}</span>
+        <span style="padding:5px 11px; border-radius:6px; border:1px solid rgba(232,255,254,.18); font-family:Poppins,sans-serif; font-size:11.5px; font-weight:700; color:rgba(232,255,254,.62);">VISA</span>
+        <span style="padding:5px 11px; border-radius:6px; border:1px solid rgba(232,255,254,.18); font-family:Poppins,sans-serif; font-size:11.5px; font-weight:700; color:rgba(232,255,254,.62);">Mastercard</span>
+        <span style="padding:5px 11px; border-radius:6px; border:1px solid rgba(232,255,254,.18); font-family:Poppins,sans-serif; font-size:11.5px; font-weight:700; color:rgba(232,255,254,.62);">AMEX</span>
+      </div>
+    </div>
   </footer>
 </div>
 
 
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#041316"></rect><text x="50" y="62" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="34" fill="#65D4D2">v</text></svg></template></x-dc>
 <script type="text/x-dc" data-dc-script>
+// Wraps Latin/numeric values in Unicode bidi isolates so they keep their own
+// left-to-right order when embedded in Arabic text (e.g. "2026-002051127"
+// must not render as "002051127-2026").
+const LTR = (s) => "⁦" + s + "⁩";
+
+const COMPANY = {
+  legalName: "Velorci LLC",
+  filingId: "2026-002051127",
+  jurisdiction: {ar:"ولاية وايومنغ، الولايات المتحدة الأمريكية", en:"State of Wyoming, United States of America"},
+  address: "30 N Gould St Ste N, Sheridan, WY 82801, USA",
+  email: "hello@velorci.com",
+  whatsapp: "+965 96984525",
+  lastUpdated: {ar:"آخر تحديث: 10 أغسطس 2026", en:"Last updated: 10 August 2026"},
+};
+
+// Bidi-safe variants of the Latin fields, for use inside prose and bindings.
+const LT = {
+  legalName: LTR(COMPANY.legalName),
+  filingId:  LTR(COMPANY.filingId),
+  address:   LTR(COMPANY.address),
+  email:     LTR(COMPANY.email),
+  whatsapp:  LTR(COMPANY.whatsapp),
+};
+
+const LEGAL = {
+  terms: {
+    title: {ar:"شروط الاستخدام", en:"Terms of Service"},
+    sections: [
+      { h:{ar:"1. قبول الشروط", en:"1. Acceptance of these terms"}, paras:[
+        {ar:`هذه الشروط اتفاقية ملزمة بينك (“العميل”) وبين ${LT.legalName}، شركة ذات مسؤولية محدودة مسجّلة في ولاية وايومنغ بالولايات المتحدة الأمريكية برقم تسجيل ${LT.filingId} وعنوانها ${LT.address} (“فيلورسي” أو “نحن”).`,
+         en:`These terms form a binding agreement between you (the “Customer”) and ${LT.legalName}, a limited liability company registered in the State of Wyoming, USA under filing number ${LT.filingId}, with its registered address at ${LT.address} (“Velorci”, “we” or “us”).`},
+        {ar:"باستخدامك للمنصة أو بإتمام الاشتراك فيها، فإنك تقرّ بأنك قرأت هذه الشروط ووافقت عليها. إذا كنت لا توافق عليها، فالرجاء عدم استخدام المنصة.",
+         en:"By using the platform or completing a subscription, you confirm that you have read and agree to these terms. If you do not agree, please do not use the platform."},
+        {ar:"إذا كنت توافق على هذه الشروط نيابةً عن منشأة تجارية، فإنك تقرّ بأنك مخوّل قانوناً بإلزام تلك المنشأة بها.",
+         en:"If you accept these terms on behalf of a business, you confirm that you are authorised to bind that business to them."},
+      ]},
+      { h:{ar:"2. وصف الخدمة", en:"2. Description of the service"}, paras:[
+        {ar:"فيلورسي منصة برمجية تُقدَّم كخدمة (SaaS) عبر الإنترنت، تتيح للمنشآت إدارة الطلبات والتوصيل والمتجر الإلكتروني والمحاسبة ونقطة البيع ومراسلات واتساب الأعمال والحملات الإعلانية من لوحة تحكم واحدة.",
+         en:"Velorci is a software-as-a-service (SaaS) platform delivered over the internet that lets businesses manage orders, delivery, an online store, accounting, point of sale, WhatsApp Business messaging and ad campaigns from a single dashboard."},
+        {ar:"الخدمة رقمية بالكامل ولا يترتب عليها شحن أي منتج مادي. يتم تفعيل حساب العميل إلكترونياً خلال مدة أقصاها يوم عمل واحد من تأكيد الدفع.",
+         en:"The service is entirely digital and involves no shipment of physical goods. Customer accounts are provisioned electronically within a maximum of one business day of payment confirmation."},
+        {ar:"قد نضيف أو نعدّل أو نوقف مزايا معيّنة لتطوير المنصة. ولن نقوم بإلغاء ميزة جوهرية من باقتك خلال مدة اشتراكك المدفوعة دون إشعارك مسبقاً بمدة لا تقل عن ثلاثين يوماً.",
+         en:"We may add, modify or discontinue individual features as the platform evolves. We will not remove a material feature from your plan during a paid subscription term without giving you at least thirty days' prior notice."},
+      ]},
+      { h:{ar:"3. الحساب ومسؤوليات العميل", en:"3. Accounts and customer responsibilities"}, paras:[
+        {ar:"يلتزم العميل بتقديم بيانات صحيحة وكاملة عند التسجيل، وبتحديثها عند تغيّرها، وبالحفاظ على سرية بيانات الدخول الخاصة به وبفريقه.",
+         en:"The Customer must provide accurate and complete information when registering, keep it up to date, and keep their own and their team's login credentials confidential."},
+        {ar:"العميل مسؤول عن كل نشاط يتم عبر حسابه وعن صلاحيات المستخدمين الذين يضيفهم، وعليه إبلاغنا فوراً عند اشتباهه بأي استخدام غير مصرّح به.",
+         en:"The Customer is responsible for all activity under their account and for the permissions granted to users they add, and must notify us immediately of any suspected unauthorised use."},
+        {ar:"العميل مسؤول عن مشروعية المحتوى والبيانات التي يرفعها على المنصة وعن التزامه بالأنظمة السارية في الدولة التي يمارس فيها نشاطه، بما في ذلك أنظمة حماية البيانات وحماية المستهلك.",
+         en:"The Customer is responsible for the lawfulness of the content and data they upload and for complying with the laws applicable in the country where they operate, including data-protection and consumer-protection rules."},
+      ]},
+      { h:{ar:"4. الاشتراك والأسعار والدفع", en:"4. Subscription, pricing and payment"}, paras:[
+        {ar:"الاشتراك في المنصة سنوي، ويُدفع مقدماً بالكامل عن كامل مدة السنة عند بدء الاشتراك أو عند تجديده.",
+         en:"Subscriptions are annual and are paid in full and in advance for the entire year at the start of the term and on each renewal."},
+        {ar:"الأسعار المعروضة على صفحة الباقات هي أسعار الاشتراك السنوي لكل باقة، وهي معروضة بالدينار الكويتي (KWD). قد تُحتسب أي ضرائب أو رسوم حكومية مستحقة إضافةً إلى السعر المعروض وفقاً لأنظمة بلد العميل.",
+         en:"The prices shown on the plans page are the annual subscription prices for each plan, displayed in Kuwaiti Dinar (KWD). Any applicable taxes or government fees may be charged in addition to the displayed price according to the rules of the Customer's country."},
+        {ar:"تتم معالجة المدفوعات عبر مزوّد خدمات دفع خارجي معتمد. نحن لا نقوم بتخزين أرقام البطاقات أو بياناتها الكاملة على خوادمنا.",
+         en:"Payments are processed by an accredited third-party payment provider. We do not store full card numbers or card data on our servers."},
+        {ar:"يحق لنا تعديل الأسعار مستقبلاً، على أن يُطبَّق أي تعديل اعتباراً من دورة التجديد التالية فقط، وبعد إشعار العميل بمدة لا تقل عن ثلاثين يوماً قبل تاريخ التجديد.",
+         en:"We may change our prices in future. Any change applies only from the following renewal cycle and only after we notify the Customer at least thirty days before the renewal date."},
+      ]},
+      { h:{ar:"5. التجديد والإلغاء", en:"5. Renewal and cancellation"}, paras:[
+        {ar:"يتجدد الاشتراك تلقائياً لمدة سنة إضافية في نهاية كل مدة، ما لم يقم العميل بإلغائه قبل تاريخ التجديد بسبعة أيام على الأقل.",
+         en:"Subscriptions renew automatically for a further year at the end of each term unless the Customer cancels at least seven days before the renewal date."},
+        {ar:"يمكن للعميل إلغاء التجديد التلقائي في أي وقت عبر مراسلتنا على البريد الإلكتروني أو الواتساب المذكورين في نهاية هذه الصفحة، ويبقى الاشتراك فعّالاً حتى نهاية المدة المدفوعة.",
+         en:"The Customer may cancel auto-renewal at any time by contacting us at the email address or WhatsApp number listed at the end of this page. The subscription remains active until the end of the paid term."},
+        {ar:"ترتبط حالات استرداد المبالغ بسياسة الاسترجاع والإلغاء المنشورة على هذا الموقع، وهي جزء لا يتجزأ من هذه الشروط.",
+         en:"Refund entitlements are governed by the Refund & Cancellation Policy published on this website, which forms an integral part of these terms."},
+      ]},
+      { h:{ar:"6. الاستخدام المقبول", en:"6. Acceptable use"}, paras:[
+        {ar:"يُمنع استخدام المنصة في أي نشاط مخالف للقانون، أو في إرسال رسائل تجارية جماعية غير مرغوب فيها، أو في بيع سلع أو خدمات محظورة، أو في انتهاك حقوق الغير.",
+         en:"The platform may not be used for any unlawful activity, for sending unsolicited bulk commercial messages, for selling prohibited goods or services, or in a way that infringes the rights of others."},
+        {ar:"يُمنع محاولة اختراق المنصة أو تعطيلها أو الوصول غير المصرّح به إلى بيانات عملاء آخرين أو إعادة بيع الخدمة دون اتفاق مكتوب معنا.",
+         en:"Attempting to breach or disrupt the platform, accessing other customers' data without authorisation, or reselling the service without a written agreement with us is prohibited."},
+        {ar:"عند استخدام مزايا واتساب الأعمال أو الإعلانات، يلتزم العميل إضافةً إلى ذلك بسياسات مزوّدي تلك الخدمات المعمول بها.",
+         en:"When using WhatsApp Business or advertising features, the Customer must additionally comply with the applicable policies of those service providers."},
+      ]},
+      { h:{ar:"7. الملكية الفكرية وبيانات العميل", en:"7. Intellectual property and customer data"}, paras:[
+        {ar:"تظل كافة حقوق الملكية الفكرية في المنصة وشيفرتها البرمجية وتصميمها وعلامتها التجارية مملوكة لفيلورسي. ويمنح الاشتراك العميل ترخيصاً محدوداً غير حصري وغير قابل للتنازل لاستخدام المنصة طوال مدة اشتراكه.",
+         en:"All intellectual property rights in the platform, its source code, design and brand remain the property of Velorci. A subscription grants the Customer a limited, non-exclusive, non-transferable licence to use the platform for the duration of the subscription."},
+        {ar:"تبقى البيانات التي يرفعها العميل — بما فيها بيانات عملائه ومنتجاته وسجلاته المحاسبية — مملوكة للعميل بالكامل. ونحن نعالجها نيابةً عنه لغرض تشغيل الخدمة فقط.",
+         en:"Data uploaded by the Customer — including their own customers, products and accounting records — remains entirely the Customer's property. We process it on their behalf solely for the purpose of operating the service."},
+        {ar:"يحق للعميل تصدير بياناته بصيغة قابلة للقراءة في أي وقت خلال مدة اشتراكه، وخلال ثلاثين يوماً من انتهائه.",
+         en:"The Customer may export their data in a readable format at any time during the subscription term and for thirty days after it ends."},
+      ]},
+      { h:{ar:"8. التوافرية والدعم الفني", en:"8. Availability and support"}, paras:[
+        {ar:"نسعى لإتاحة المنصة على مدار الساعة، مع إمكانية إيقافها مؤقتاً لأعمال الصيانة المجدولة التي نُشعر بها مسبقاً كلما أمكن.",
+         en:"We aim to keep the platform available at all times, save for scheduled maintenance windows which we announce in advance wherever practicable."},
+        {ar:"يُقدَّم الدعم الفني عبر البريد الإلكتروني والواتساب خلال أيام العمل، ويختلف مستوى الأولوية بحسب الباقة المشترَك بها.",
+         en:"Technical support is provided by email and WhatsApp during business days. Priority levels vary by subscription plan."},
+      ]},
+      { h:{ar:"9. حدود المسؤولية", en:"9. Limitation of liability"}, paras:[
+        {ar:"تُقدَّم المنصة “كما هي”. وبالقدر الذي يسمح به القانون، لا نتحمل المسؤولية عن الأضرار غير المباشرة أو التبعية أو عن فوات الربح أو فقدان البيانات الناتج عن عوامل خارجة عن سيطرتنا المعقولة.",
+         en:"The platform is provided “as is”. To the extent permitted by law, we are not liable for indirect or consequential damages, or for loss of profit or data arising from factors outside our reasonable control."},
+        {ar:"وفي جميع الأحوال، لا تتجاوز مسؤوليتنا الإجمالية تجاه العميل قيمة المبالغ التي دفعها فعلياً مقابل الاشتراك خلال الاثني عشر شهراً السابقة لنشوء المطالبة.",
+         en:"In all cases, our total aggregate liability to the Customer shall not exceed the amounts actually paid for the subscription in the twelve months preceding the claim."},
+        {ar:"لا يحدّ أي بند في هذه الشروط من الحقوق التي لا يجوز التنازل عنها قانوناً بموجب أنظمة حماية المستهلك السارية.",
+         en:"Nothing in these terms limits rights that cannot be waived under applicable consumer-protection law."},
+      ]},
+      { h:{ar:"10. الإنهاء", en:"10. Termination"}, paras:[
+        {ar:"يحق لنا تعليق أو إنهاء الحساب في حال مخالفة العميل لهذه الشروط مخالفة جوهرية، أو في حال عدم سداد المستحقات، وذلك بعد إشعاره ومنحه مهلة معقولة لتصحيح المخالفة متى كان ذلك ممكناً.",
+         en:"We may suspend or terminate an account in the event of a material breach of these terms or non-payment, after notifying the Customer and allowing a reasonable period to remedy the breach where possible."},
+        {ar:"عند الإنهاء لأي سبب، يتاح للعميل تصدير بياناته خلال ثلاثين يوماً، ثم تُحذف بياناته من أنظمتنا التشغيلية وفقاً لسياسة الخصوصية.",
+         en:"On termination for any reason, the Customer may export their data within thirty days, after which it is deleted from our operational systems in accordance with the Privacy Policy."},
+      ]},
+      { h:{ar:"11. القانون الحاكم وتسوية النزاعات", en:"11. Governing law and disputes"}, paras:[
+        {ar:`تخضع هذه الشروط وتُفسَّر وفقاً لقوانين ${COMPANY.jurisdiction.ar}، دون اعتبار لقواعد تنازع القوانين.`,
+         en:`These terms are governed by and construed in accordance with the laws of the ${COMPANY.jurisdiction.en}, without regard to its conflict-of-laws rules.`},
+        {ar:"نسعى أولاً لتسوية أي نزاع ودياً خلال ثلاثين يوماً من إشعار الطرف الآخر به كتابةً. وفي حال تعذّر ذلك، تختص المحاكم المختصة في ولاية وايومنغ بنظر النزاع.",
+         en:"We will first seek to resolve any dispute amicably within thirty days of written notice to the other party. Failing that, the competent courts of the State of Wyoming shall have jurisdiction."},
+      ]},
+      { h:{ar:"12. تعديل الشروط والتواصل", en:"12. Changes and contact"}, paras:[
+        {ar:"قد نحدّث هذه الشروط من وقت لآخر. وسنُشعر العملاء المشتركين بأي تعديل جوهري عبر البريد الإلكتروني قبل سريانه بثلاثين يوماً على الأقل، ويظل تاريخ آخر تحديث مبيّناً أعلى هذه الصفحة.",
+         en:"We may update these terms from time to time. We will notify active subscribers of any material change by email at least thirty days before it takes effect, and the last-updated date is shown at the top of this page."},
+        {ar:`لأي استفسار بخصوص هذه الشروط، راسلنا على ${LT.email} أو عبر واتساب ${LT.whatsapp}.`,
+         en:`For any question about these terms, contact us at ${LT.email} or on WhatsApp at ${LT.whatsapp}.`},
+      ]},
+    ],
+  },
+
+  privacy: {
+    title: {ar:"سياسة الخصوصية", en:"Privacy Policy"},
+    sections: [
+      { h:{ar:"1. من نحن", en:"1. Who we are"}, paras:[
+        {ar:`${LT.legalName} (رقم التسجيل ${LT.filingId})، وعنوانها ${LT.address}، هي المسؤولة عن معالجة البيانات الشخصية الموضّحة في هذه السياسة.`,
+         en:`${LT.legalName} (registration number ${LT.filingId}), of ${LT.address}, is the controller responsible for the personal data described in this policy.`},
+        {ar:"توضّح هذه السياسة ما البيانات التي نجمعها، ولماذا نجمعها، وكيف نحميها، وما الحقوق المتاحة لك بشأنها.",
+         en:"This policy explains what data we collect, why we collect it, how we protect it, and what rights you have in relation to it."},
+      ]},
+      { h:{ar:"2. البيانات التي نجمعها", en:"2. Data we collect"}, paras:[
+        {ar:"بيانات التواصل والحساب: الاسم، البريد الإلكتروني، رقم الهاتف أو الواتساب، اسم المنشأة، والمسمّى الوظيفي — وتُجمع عند تعبئة نموذج التواصل أو إنشاء حساب.",
+         en:"Contact and account data: name, email address, phone or WhatsApp number, business name and job title — collected when you submit the contact form or create an account."},
+        {ar:"بيانات الاشتراك والفوترة: الباقة المشترَك بها، تاريخ الاشتراك والتجديد، وسجل الفواتير. لا نستلم ولا نخزّن أرقام البطاقات؛ فهي تُعالَج مباشرةً لدى مزوّد خدمات الدفع.",
+         en:"Subscription and billing data: your plan, subscription and renewal dates, and invoice history. We neither receive nor store card numbers; these are handled directly by our payment provider."},
+        {ar:"بيانات الاستخدام التقنية: عنوان IP، نوع المتصفح والجهاز، وسجلات الدخول والصفحات التي تمت زيارتها — وتُستخدم لأغراض الأمان وتحسين الأداء.",
+         en:"Technical usage data: IP address, browser and device type, login records and pages visited — used for security and performance purposes."},
+        {ar:"بيانات يرفعها العميل عن عملائه: عند استخدام المنصة، قد يرفع العميل بيانات عملائه (أسماء، عناوين توصيل، أرقام تواصل، سجل طلبات). في هذه الحالة يكون العميل هو المتحكم بالبيانات ونحن معالج لها نيابةً عنه.",
+         en:"Data our customers upload about their own customers: when using the platform, a Customer may upload end-customer data (names, delivery addresses, contact numbers, order history). In that case the Customer is the data controller and we act as processor on their behalf."},
+      ]},
+      { h:{ar:"3. أغراض المعالجة", en:"3. Why we process data"}, paras:[
+        {ar:"لتقديم الخدمة وتشغيل حسابك وتمكينك من استخدام مزايا المنصة، ولتنفيذ الاشتراك وإصدار الفواتير وتحصيل المستحقات.",
+         en:"To provide the service, operate your account and enable platform features; and to administer subscriptions, issue invoices and collect payments."},
+        {ar:"للرد على استفساراتك وتقديم الدعم الفني، ولإرسال إشعارات تشغيلية أساسية تتعلق بحسابك أو بأمانه أو بتغييرات جوهرية في الخدمة.",
+         en:"To respond to your enquiries and provide technical support, and to send essential operational notices about your account, its security, or material service changes."},
+        {ar:"لحماية المنصة من الاحتيال وإساءة الاستخدام، ولتحسين أداء الخدمة وتطوير مزاياها بناءً على بيانات استخدام مجمّعة.",
+         en:"To protect the platform against fraud and abuse, and to improve performance and develop features based on aggregated usage data."},
+        {ar:"لإرسال رسائل تسويقية عن مزايا المنصة — وذلك فقط بعد موافقتك، ويمكنك سحب موافقتك في أي وقت.",
+         en:"To send marketing messages about platform features — only with your consent, which you may withdraw at any time."},
+      ]},
+      { h:{ar:"4. الأساس القانوني للمعالجة", en:"4. Legal basis for processing"}, paras:[
+        {ar:"نعتمد على تنفيذ العقد المبرم معك لتقديم الخدمة والفوترة، وعلى مصلحتنا المشروعة في تأمين المنصة ومنع الاحتيال وتحسين الخدمة، وعلى موافقتك الصريحة فيما يتعلق بالرسائل التسويقية وبعض ملفات الارتباط، وعلى الالتزامات القانونية فيما يخص حفظ السجلات المحاسبية.",
+         en:"We rely on performance of our contract with you for service delivery and billing; on our legitimate interests in securing the platform, preventing fraud and improving the service; on your explicit consent for marketing messages and certain cookies; and on legal obligations in respect of accounting record retention."},
+      ]},
+      { h:{ar:"5. مشاركة البيانات مع أطراف ثالثة", en:"5. Sharing with third parties"}, paras:[
+        {ar:"لا نبيع بياناتك الشخصية ولا نؤجّرها لأي جهة، تحت أي ظرف.",
+         en:"We do not sell or rent your personal data to anyone, under any circumstances."},
+        {ar:"نشاركها فقط مع مزوّدي خدمات ضروريين لتشغيل المنصة، وضمن حدود ما يلزم لأداء مهامهم: مزوّد خدمات الدفع لمعالجة المدفوعات، ومزوّد الاستضافة السحابية لتخزين البيانات، ومزوّد خدمة البريد الإلكتروني للإشعارات، ومزوّدي واجهات واتساب الأعمال والإعلانات عند تفعيلك لتلك المزايا.",
+         en:"We share it only with service providers necessary to operate the platform, and only to the extent required for them to perform their role: our payment provider for processing payments, our cloud hosting provider for data storage, our email provider for notifications, and WhatsApp Business and advertising API providers where you enable those features."},
+        {ar:"وقد نفصح عن البيانات إذا فرض علينا القانون أو أمر قضائي مختص ذلك، أو للدفاع عن حقوقنا القانونية.",
+         en:"We may also disclose data where required by law or a competent court order, or to defend our legal rights."},
+      ]},
+      { h:{ar:"6. ملفات الارتباط (Cookies)", en:"6. Cookies"}, paras:[
+        {ar:"نستخدم ملفات ارتباط ضرورية لتشغيل الموقع وحفظ تفضيلاتك مثل اللغة، وملفات تحليلية لفهم كيفية استخدام الموقع وتحسينه.",
+         en:"We use strictly necessary cookies to operate the site and remember preferences such as your language, and analytics cookies to understand how the site is used and improve it."},
+        {ar:"يمكنك ضبط متصفحك لرفض ملفات الارتباط غير الضرورية، مع ملاحظة أن ذلك قد يؤثر على بعض وظائف الموقع.",
+         en:"You can configure your browser to reject non-essential cookies, though this may affect some site functionality."},
+      ]},
+      { h:{ar:"7. مدة الاحتفاظ بالبيانات", en:"7. Data retention"}, paras:[
+        {ar:"نحتفظ ببيانات الحساب طوال سريان الاشتراك. وعند إنهائه، تُتاح لك مهلة ثلاثين يوماً لتصدير بياناتك، ثم تُحذف من أنظمتنا التشغيلية خلال تسعين يوماً كحد أقصى.",
+         en:"We retain account data for as long as the subscription is active. On termination you have thirty days to export your data, after which it is deleted from our operational systems within a maximum of ninety days."},
+        {ar:"تُحفظ سجلات الفواتير والمستندات المحاسبية للمدة التي تفرضها الأنظمة الضريبية والمحاسبية السارية، حتى بعد إغلاق الحساب.",
+         en:"Invoices and accounting records are retained for the period required by applicable tax and accounting rules, even after an account is closed."},
+      ]},
+      { h:{ar:"8. أمن البيانات", en:"8. Data security"}, paras:[
+        {ar:"نطبّق إجراءات تقنية وتنظيمية لحماية بياناتك، من بينها تشفير الاتصال بالموقع عبر HTTPS، وتشفير البيانات الحساسة، وتقييد الوصول الداخلي وفق مبدأ الحاجة إلى المعرفة، والنسخ الاحتياطي الدوري.",
+         en:"We apply technical and organisational safeguards to protect your data, including HTTPS encryption in transit, encryption of sensitive data, internal access restricted on a need-to-know basis, and regular backups."},
+        {ar:"ورغم ذلك، لا يمكن ضمان أمان أي نظام بشكل مطلق. وفي حال وقوع خرق يمسّ بياناتك الشخصية بشكل جوهري، سنُشعرك ونُشعر الجهات المختصة وفق ما تفرضه الأنظمة السارية.",
+         en:"No system can be guaranteed absolutely secure. In the event of a breach materially affecting your personal data, we will notify you and the relevant authorities as required by applicable law."},
+      ]},
+      { h:{ar:"9. حقوقك", en:"9. Your rights"}, paras:[
+        {ar:"لك الحق في الوصول إلى بياناتك الشخصية، وفي تصحيحها إن كانت غير دقيقة، وفي طلب حذفها، وفي الاعتراض على معالجتها أو تقييدها، وفي الحصول على نسخة منها بصيغة قابلة للنقل، وفي سحب موافقتك على التسويق في أي وقت.",
+         en:"You have the right to access your personal data, correct it if inaccurate, request its deletion, object to or restrict its processing, obtain a portable copy of it, and withdraw your marketing consent at any time."},
+        {ar:`لممارسة أي من هذه الحقوق، راسلنا على ${LT.email}. ونلتزم بالرد على طلبك خلال ثلاثين يوماً كحد أقصى.`,
+         en:`To exercise any of these rights, contact us at ${LT.email}. We undertake to respond within a maximum of thirty days.`},
+      ]},
+      { h:{ar:"10. نقل البيانات دولياً", en:"10. International transfers"}, paras:[
+        {ar:"نظراً لأن الشركة مسجّلة في الولايات المتحدة الأمريكية ولأن بعض مزوّدي خدماتنا يشغّلون خوادم خارج بلدك، فقد تُنقل بياناتك وتُعالَج خارج دولة إقامتك.",
+         en:"Because the company is registered in the United States and some of our providers operate servers outside your country, your data may be transferred to and processed outside your country of residence."},
+        {ar:"وفي جميع هذه الحالات، نتعاقد مع مزوّدين يلتزمون بضمانات حماية مناسبة لمستوى الحماية المنصوص عليه في هذه السياسة.",
+         en:"In all such cases we contract with providers that commit to safeguards appropriate to the level of protection described in this policy."},
+      ]},
+      { h:{ar:"11. خصوصية الأطفال", en:"11. Children's privacy"}, paras:[
+        {ar:"المنصة موجّهة للمنشآت التجارية وليست موجّهة للأطفال دون سن الثامنة عشرة، ولا نجمع بياناتهم عن قصد. وإذا علمنا بجمع بيانات طفل دون علم وليّ أمره، سنحذفها فوراً.",
+         en:"The platform is intended for businesses and is not directed at children under eighteen; we do not knowingly collect their data. If we learn that we have collected a child's data without parental awareness, we will delete it promptly."},
+      ]},
+      { h:{ar:"12. تحديث السياسة والتواصل", en:"12. Policy updates and contact"}, paras:[
+        {ar:"قد نحدّث هذه السياسة عند تغيّر ممارساتنا أو المتطلبات النظامية، ويظل تاريخ آخر تحديث مبيّناً أعلى الصفحة. وسنُشعرك بالتغييرات الجوهرية عبر البريد الإلكتروني.",
+         en:"We may update this policy as our practices or regulatory requirements change; the last-updated date is shown at the top of this page. We will notify you of material changes by email."},
+        {ar:`لأي استفسار أو شكوى بخصوص خصوصية بياناتك، راسلنا على ${LT.email} أو عبر واتساب ${LT.whatsapp}.`,
+         en:`For any privacy question or complaint, contact us at ${LT.email} or on WhatsApp at ${LT.whatsapp}.`},
+      ]},
+    ],
+  },
+
+  refund: {
+    title: {ar:"سياسة الاسترجاع والإلغاء", en:"Refund & Cancellation Policy"},
+    sections: [
+      { h:{ar:"1. نطاق هذه السياسة", en:"1. Scope of this policy"}, paras:[
+        {ar:`تنطبق هذه السياسة على جميع اشتراكات منصة فيلورسي المقدَّمة من ${LT.legalName}، وتُقرأ مع شروط الاستخدام المنشورة على هذا الموقع.`,
+         en:`This policy applies to all subscriptions to the Velorci platform provided by ${LT.legalName}, and is to be read together with the Terms of Service published on this website.`},
+        {ar:"فيلورسي خدمة برمجية رقمية بالكامل (SaaS)؛ لا يترتب على الاشتراك شحن أي منتج مادي، وبالتالي لا توجد سياسة إرجاع بضائع أو رسوم شحن.",
+         en:"Velorci is an entirely digital software service (SaaS); no physical product is shipped, so there is no goods-return process or shipping charge."},
+      ]},
+      { h:{ar:"2. طبيعة الاشتراك", en:"2. Nature of the subscription"}, paras:[
+        {ar:"الاشتراك سنوي ويُدفع مقدماً عن كامل مدة السنة. ويُفعَّل الحساب إلكترونياً خلال مدة أقصاها يوم عمل واحد من تأكيد الدفع.",
+         en:"Subscriptions are annual and paid in advance for the full year. Accounts are activated electronically within a maximum of one business day of payment confirmation."},
+        {ar:"نوفّر عرضاً تجريبياً مجانياً قبل الاشتراك، ونشجّع كل عميل على تجربة المنصة والتأكد من ملاءمتها لعمله قبل الدفع.",
+         en:"We offer a free demo before subscribing, and we encourage every customer to trial the platform and confirm it suits their business before paying."},
+      ]},
+      { h:{ar:"3. فترة الاسترجاع الكامل", en:"3. Full refund window"}, paras:[
+        {ar:"يحق للعميل طلب استرداد كامل للمبلغ المدفوع خلال أربعة عشر (14) يوماً من تاريخ أول اشتراك له في المنصة، دون الحاجة لإبداء الأسباب.",
+         en:"A Customer may request a full refund of the amount paid within fourteen (14) days of their first subscription to the platform, with no reason required."},
+        {ar:"ولضمان سلامة الاسترداد، يُشترط ألا يكون الاستخدام خلال تلك الفترة قد تجاوز حدود التجربة المعقولة للخدمة، كأن يكون الحساب قد استُخدم لمعالجة حجم تشغيلي كامل أو لإرسال حملات رسائل جماعية واسعة.",
+         en:"To qualify, usage during that window must not have gone beyond a reasonable evaluation of the service — for example, the account must not have been used to process a full operational workload or to send large-scale bulk messaging campaigns."},
+      ]},
+      { h:{ar:"4. بعد انتهاء فترة الاسترجاع", en:"4. After the refund window"}, paras:[
+        {ar:"بعد مرور أربعة عشر يوماً على بدء الاشتراك، لا تُسترد المبالغ المدفوعة عن المدة الجارية، ويبقى الاشتراك فعّالاً حتى نهاية السنة المدفوعة.",
+         en:"After fourteen days from the start of the subscription, amounts paid for the current term are non-refundable, and the subscription remains active until the end of the paid year."},
+        {ar:"واستثناءً من ذلك، يحق للعميل استرداد نسبي عن المدة المتبقية إذا تعذّر علينا تقديم الخدمة لسبب يعود إلينا، أو في حال انقطاع جوهري ومتواصل للخدمة لم نتمكن من معالجته خلال مدة معقولة.",
+         en:"By way of exception, a pro-rata refund for the remaining term is available if we are unable to provide the service for reasons attributable to us, or in the event of a material and sustained outage that we fail to remedy within a reasonable period."},
+      ]},
+      { h:{ar:"5. حالات لا تشملها الاسترجاع", en:"5. Non-refundable cases"}, paras:[
+        {ar:"الرسوم المدفوعة لأطراف ثالثة ومُستهلَكة فعلياً، مثل ميزانيات الحملات الإعلانية أو رسوم رسائل واتساب أو رسوم أسماء النطاقات.",
+         en:"Fees paid to third parties and already consumed, such as advertising campaign budgets, WhatsApp messaging fees, or domain-name fees."},
+        {ar:"أعمال التخصيص أو التطوير الخاص أو ترحيل البيانات التي تم تنفيذها فعلياً بناءً على طلب العميل.",
+         en:"Customisation, bespoke development or data-migration work already carried out at the Customer's request."},
+        {ar:"الاشتراكات التي أُنهيت بسبب مخالفة العميل الجوهرية لشروط الاستخدام أو لسياسة الاستخدام المقبول.",
+         en:"Subscriptions terminated due to the Customer's material breach of the Terms of Service or the acceptable-use policy."},
+        {ar:"التجديدات التي لم يُطلب إلغاؤها قبل تاريخ التجديد بسبعة أيام على الأقل، وفق ما هو موضّح في البند التالي.",
+         en:"Renewals for which cancellation was not requested at least seven days before the renewal date, as set out in the next section."},
+      ]},
+      { h:{ar:"6. إلغاء الاشتراك والتجديد التلقائي", en:"6. Cancellation and auto-renewal"}, paras:[
+        {ar:"يتجدد الاشتراك تلقائياً لسنة إضافية ما لم يُلغَ قبل تاريخ التجديد بسبعة أيام على الأقل. ونرسل تذكيراً بالتجديد إلى بريد العميل قبل موعده بمدة كافية.",
+         en:"Subscriptions renew automatically for a further year unless cancelled at least seven days before the renewal date. We send a renewal reminder to the Customer's email address in good time beforehand."},
+        {ar:"يمكن الإلغاء في أي وقت عبر مراسلتنا على البريد الإلكتروني أو الواتساب. والإلغاء يوقف التجديد المستقبلي فقط، ويستمر العميل في استخدام المنصة حتى نهاية المدة المدفوعة.",
+         en:"You may cancel at any time by contacting us by email or WhatsApp. Cancellation stops future renewals only; the Customer continues to use the platform until the end of the paid term."},
+        {ar:"إذا تم تجديد الاشتراك تلقائياً وطلب العميل الإلغاء خلال سبعة أيام من خصم مبلغ التجديد ودون أن يكون قد استخدم المنصة خلال تلك المدة، فإننا نردّ مبلغ التجديد كاملاً.",
+         en:"If a subscription renews automatically and the Customer requests cancellation within seven days of the renewal charge without having used the platform in that period, we refund the renewal charge in full."},
+      ]},
+      { h:{ar:"7. كيفية تقديم طلب الاسترجاع", en:"7. How to request a refund"}, paras:[
+        {ar:`أرسل طلبك إلى ${LT.email} أو عبر واتساب ${LT.whatsapp}، متضمناً اسم المنشأة، والبريد المرتبط بالحساب، ورقم الفاتورة، وسبب الطلب إن وُجد.`,
+         en:`Send your request to ${LT.email} or via WhatsApp at ${LT.whatsapp}, including your business name, the email linked to the account, the invoice number, and the reason for the request if any.`},
+        {ar:"نراجع كل طلب ونردّ عليه خلال ثلاثة أيام عمل كحد أقصى، موضّحين قرارنا وأسبابه.",
+         en:"We review every request and respond within a maximum of three business days, explaining our decision and the reasons for it."},
+      ]},
+      { h:{ar:"8. مدة وطريقة رد المبلغ", en:"8. Refund timing and method"}, paras:[
+        {ar:"يُردّ المبلغ المستحق إلى الوسيلة نفسها التي تم الدفع بها، ولا يمكن ردّه إلى وسيلة أخرى.",
+         en:"Approved refunds are returned to the same payment method used for the original charge, and cannot be issued to a different method."},
+        {ar:"نبدأ إجراء الاسترداد خلال خمسة أيام عمل من الموافقة على الطلب. وقد يستغرق ظهور المبلغ في حساب العميل من خمسة إلى عشرة أيام عمل إضافية بحسب إجراءات البنك أو مزوّد خدمات الدفع.",
+         en:"We initiate the refund within five business days of approving the request. The amount may take a further five to ten business days to appear, depending on the bank or payment provider."},
+        {ar:"لا نفرض أي رسوم إدارية على عملية الاسترداد.",
+         en:"We charge no administrative fee for processing a refund."},
+      ]},
+      { h:{ar:"9. الشكاوى والتواصل", en:"9. Complaints and contact"}, paras:[
+        {ar:"إذا لم تكن راضياً عن قرارنا بشأن طلب استرداد، يمكنك طلب مراجعته وسيتولى مسؤول أعلى دراسة الحالة والرد عليك خلال سبعة أيام عمل.",
+         en:"If you are not satisfied with our decision on a refund request, you may ask for it to be reviewed; a senior manager will consider the case and respond within seven business days."},
+        {ar:`${LT.legalName} — ${LT.address}. البريد: ${LT.email} — واتساب: ${LT.whatsapp}.`,
+         en:`${LT.legalName} — ${LT.address}. Email: ${LT.email} — WhatsApp: ${LT.whatsapp}.`},
+      ]},
+    ],
+  },
+};
+
 const DATA = {
   problemRows: [
     { p:{ar:"طلبات متفرقة بين واتساب والموقع وانستقرام",en:"Orders scattered across WhatsApp, website and Instagram"}, s:{ar:"صندوق طلبات موحّد يجمع كل الطلبات تلقائياً",en:"One unified inbox collects every order automatically"} },
@@ -695,6 +1013,7 @@ class Component extends DCLogic {
       {key:"team", ar:"فريق العمل", en:"Team"},
       {key:"contact", ar:"تواصل معنا", en:"Contact"},
     ];
+    const legalKey = ["terms","privacy","refund"].includes(this.state.page) ? this.state.page : null;
     const ease = 1 - Math.pow(1 - this.state.statProgress, 3);
     const revealEase = 1 - Math.pow(1 - this.state.revealProg, 3);
     const dashStatDefs = [
@@ -811,12 +1130,16 @@ class Component extends DCLogic {
       packages: {
         title: L==="ar" ? "باقات مرنة تناسب حجم عملك" : "Flexible plans for every business size",
         popular: L==="ar" ? "الأكثر طلباً" : "Most popular",
+        note: L==="ar"
+          ? "جميع الأسعار بالدينار الكويتي (KWD) وتُدفع مقدماً عن سنة كاملة، ولا تشمل أي ضرائب أو رسوم حكومية قد تُطبَّق حسب بلد العميل. يتجدد الاشتراك تلقائياً سنوياً ويمكن إلغاؤه في أي وقت قبل التجديد بسبعة أيام. يُفعَّل الحساب خلال يوم عمل واحد من تأكيد الدفع."
+          : "All prices are in Kuwaiti Dinar (KWD), paid in advance for a full year, and exclude any taxes or government fees that may apply in the customer's country. Subscriptions renew automatically each year and can be cancelled any time up to seven days before renewal. Accounts are activated within one business day of payment confirmation.",
         items: DATA.packages.map(p => {
           const prices = {starter:"200",growth:"300",pro:"550",ent:"700"};
           return {
             name: this.pick(p.name),
             priceNum: prices[p.key],
-            priceCur: L==="ar"?"د.ك":"KD",
+            priceCur: L==="ar"?"د.ك (KWD)":"KWD",
+            pricePeriod: L==="ar"?"/ سنوياً":"/ per year",
             bullets: this.pick(p.bullets),
             highlight: !!p.highlight,
             bg: p.highlight ? "rgba(101,212,210,.09)" : "rgba(232,255,254,.03)",
@@ -855,8 +1178,14 @@ class Component extends DCLogic {
         body: L==="ar" ? "راسلنا لحجز عرض تجريبي أو لأي استفسار عن المنصة، ونتواصل معك قريباً." : "Reach out to book a demo or ask anything about the platform — we'll get back to you soon.",
         emailLabel: L==="ar" ? "البريد:" : "Email:",
         whatsappLabel: L==="ar" ? "واتساب:" : "WhatsApp:",
-        regionLabel: L==="ar" ? "المنطقة:" : "Region:",
+        regionLabel: L==="ar" ? "منطقة الخدمة:" : "Service region:",
         regionValue: L==="ar" ? "الخليج والعالم العربي" : "Gulf & the Arab world",
+        companyLabel: L==="ar" ? "الاسم القانوني:" : "Legal name:",
+        companyValue: LT.legalName,
+        regNoLabel: L==="ar" ? "رقم التسجيل:" : "Registration no.:",
+        regNoValue: LT.filingId,
+        addressLabel: L==="ar" ? "العنوان المسجّل:" : "Registered address:",
+        addressValue: LT.address,
         namePlaceholder: L==="ar" ? "الاسم" : "Name",
         phonePlaceholder: L==="ar" ? "الهاتف / واتساب" : "Phone / WhatsApp",
         companyPlaceholder: L==="ar" ? "اسم الشركة" : "Company name",
@@ -865,7 +1194,24 @@ class Component extends DCLogic {
         successTitle: L==="ar" ? "تم الإرسال بنجاح" : "Message sent",
         successBody: L==="ar" ? "شكراً لتواصلك معنا، سيقوم فريقنا بالرد عليك قريباً." : "Thanks for reaching out — our team will get back to you soon.",
       },
-      footer: { rights: L==="ar" ? "© 2026 velorci. جميع الحقوق محفوظة." : "© 2026 velorci. All rights reserved." },
+      footer: {
+        rights: L==="ar" ? `© 2026 ${LT.legalName}. جميع الحقوق محفوظة.` : `© 2026 ${LT.legalName}. All rights reserved.`,
+        entityPrefix: L==="ar"
+          ? `${LT.legalName} — شركة ذات مسؤولية محدودة مسجّلة في ${COMPANY.jurisdiction.ar} برقم`
+          : `${LT.legalName} — a limited liability company registered in the ${COMPANY.jurisdiction.en}, no.`,
+        regNo: LT.filingId,
+        address: LT.address,
+        terms: L==="ar" ? "شروط الاستخدام" : "Terms of Service",
+        privacy: L==="ar" ? "سياسة الخصوصية" : "Privacy Policy",
+        refund: L==="ar" ? "سياسة الاسترجاع والإلغاء" : "Refund & Cancellation",
+        contact: L==="ar" ? "تواصل معنا" : "Contact",
+        paymentsLabel: L==="ar" ? "طرق الدفع المقبولة:" : "Accepted payment methods:",
+      },
+      legal: legalKey ? {
+        title: this.pick(LEGAL[legalKey].title),
+        updated: this.pick(COMPANY.lastUpdated),
+        sections: LEGAL[legalKey].sections.map(s => ({ h: this.pick(s.h), paras: s.paras.map(p => this.pick(p)) })),
+      } : { title:"", updated:"", sections:[] },
     };
 
     const mq = DATA.marquee.map(m => this.pick(m));
@@ -884,6 +1230,9 @@ class Component extends DCLogic {
         home: () => this.setState({page:"home", menuOpen:false}),
         services: () => this.setState({page:"services", menuOpen:false}),
         contact: () => this.setState({page:"contact", menuOpen:false}),
+        terms: () => { this.setState({page:"terms", menuOpen:false}); window.scrollTo(0,0); },
+        privacy: () => { this.setState({page:"privacy", menuOpen:false}); window.scrollTo(0,0); },
+        refund: () => { this.setState({page:"refund", menuOpen:false}); window.scrollTo(0,0); },
       },
       toggleLang: () => this.setState({lang: this.state.lang==="ar" ? "en" : "ar"}),
       isHome: this.state.page==="home",
@@ -891,6 +1240,7 @@ class Component extends DCLogic {
       isServices: this.state.page==="services",
       isTeam: this.state.page==="team",
       isContact: this.state.page==="contact",
+      isLegal: !!legalKey,
       dashStats: dashStatDefs.map(s => ({label:s.label, value: s.fmt(Math.round(s.target*ease))})),
       netRevenue: (34892.115*revealEase).toLocaleString("en",{minimumFractionDigits:3, maximumFractionDigits:3}),
       avgOrder: (63.440*revealEase).toLocaleString("en",{minimumFractionDigits:3, maximumFractionDigits:3}),
